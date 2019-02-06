@@ -11,7 +11,7 @@ int getCurrentAge(DateTime dateOfBirth) {
   return DateTime.now().year - dateOfBirth.year;
 }
 
-var _dateFormatter = DateFormat("dd.MM.yyyy");
+var _dateFormatter = DateFormat('dd.MM.yyyy');
 
 String formatDate(DateTime date){
   if(date != null)
@@ -22,18 +22,18 @@ String formatDate(DateTime date){
 
 // function to create a horse object for testing
 Horse buildHorse() {
-  var h = Horse.fromName("Viva");
+  var h = Horse.fromName('Viva');
   h.color = Color.grey;
   h.gender = Gender(gender: genderType.mare);
   h.dateOfBirth = DateTime(2012, 2, 3); // 3.2.2012
-  h.sportsName = "Viva DH";
+  h.sportsName = 'Viva DH';
   h.race = Race.westfalian;
   return h;
 }
 
 String stringOrNull(dynamic v) {
   if (v == null)
-    return "";
+    return '';
   else
     return v.toString();
 }
@@ -49,9 +49,9 @@ abstract class Localized {
 String ageToLocalizedPlural(int age) {
   switch (age) {
     case 0:
-      return "zero";
+      return 'zero';
     case 1:
-      return "one";
+      return 'one';
     default:
       return age.toString();
   }

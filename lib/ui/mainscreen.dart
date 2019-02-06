@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import "package:pferdepass/backend/horse.dart";
-import "package:pferdepass/backend/tools.dart";
+import 'package:pferdepass/backend/horse.dart';
+import 'package:pferdepass/backend/tools.dart';
 
-import "viewhorse.dart";
+import 'viewhorse.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -10,7 +10,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  _MainScreenState({String title = "Pferdepass"})
+  _MainScreenState({String title = 'Pferdepass'})
       : _horses = [],
         _title = title {
 //    _horses.add(buildHorse());
@@ -34,13 +34,13 @@ class _MainScreenState extends State<MainScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) {
-              var horse = Horse.fromName("New Horse");
+              var horse = Horse.fromName('New Horse');
               _horses.add(horse);
               return ViewHorse.fromHorse(horse);
             }),
           );
         },
-        tooltip: "add Horse",
+        tooltip: 'add Horse',
         child: Icon(Icons.add),
       ),
     );
@@ -66,9 +66,9 @@ class _HorseCardState extends State<HorseCard> {
   Widget build(BuildContext context) {
     var nameList = [horse.breedName, horse.sportsName];
     nameList.remove(null);
-    var additionalNames = nameList.join(", ");
+    var additionalNames = nameList.join(', ');
     if (additionalNames.isNotEmpty)
-      additionalNames = "($additionalNames)";
+      additionalNames = '($additionalNames)';
     else
       additionalNames = null;
 

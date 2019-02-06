@@ -56,7 +56,7 @@ class Horse {
 
   Horse(
       {this.ueln,
-      this.name = "",
+      this.name = '',
       this.sportsName,
       this.breedName,
       this.gender = const Gender(),
@@ -77,7 +77,7 @@ class Horse {
   Map<String, dynamic> toJson() => _$HorseToJson(this);
 
   String description(BuildContext c) {
-    String result = "";
+    String result = '';
     var s = S.of(c);
     if (age >= 2) {
       if (gender != null && gender.gender == genderType.mare)
@@ -86,9 +86,9 @@ class Horse {
         result += s.years_old(ageToLocalizedPlural(age));
       else
         result += s.years_old_male(ageToLocalizedPlural(age));
-      result += " ";
+      result += ' ';
     }
-    if (color != null) result += "${colorStrings[color](c)} ";
+    if (color != null) result += '${colorStrings[color](c)} ';
     if (age < 2) {
       if (gender != null && gender.gender == genderType.mare)
         result += s.years_old_female(ageToLocalizedPlural(age));
@@ -96,15 +96,15 @@ class Horse {
         result += s.years_old(ageToLocalizedPlural(age));
       else
         result += s.years_old_male(ageToLocalizedPlural(age));
-      result += " ";
+      result += ' ';
     } else if (gender != null && gender.gender != genderType.unknown)
-      result += "${Gender.genderStrings[gender.gender](c)} ";
+      result += '${Gender.genderStrings[gender.gender](c)} ';
     if (father != null && father.name != null)
-      result += "${s.by} ${father.name} ";
+      result += '${s.by} ${father.name} ';
     if (mother != null && mother.name != null) {
-      result += "${s.out_of} mother.name ";
+      result += '${s.out_of} mother.name ';
       if (mother.father != null && mother.father.name != null)
-        result += "${s.by} ${mother.father.name}";
+        result += '${s.by} ${mother.father.name}';
     }
     return result;
   }

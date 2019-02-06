@@ -7,7 +7,7 @@ import 'generated/i18n.dart';
 void main() {
   runApp(MaterialApp(
     onGenerateTitle: (BuildContext context) => S.of(context).title,
-    title: "Pferdepass",
+    title: 'Pferdepass',
     home: MainScreen(),
     localizationsDelegates: const [
       S.delegate,

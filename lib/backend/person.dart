@@ -42,13 +42,13 @@ class PersonType {
   Map<String, dynamic> toJson() => _$PersonTypeToJson(this);
 
   static const Map<dynamic, String> _strings = {
-    _PersonType.unknown: "unknown",
-    _PersonType.owner: "owner",
-    _PersonType.vet: "veterinarian",
-    _PersonType.hoofsmith: "hoofsmith",
-    _PersonType.groom: "groom",
-    _PersonType.rider: "rider",
-    _PersonType.saddler: "saddler"
+    _PersonType.unknown: 'unknown',
+    _PersonType.owner: 'owner',
+    _PersonType.vet: 'veterinarian',
+    _PersonType.hoofsmith: 'hoofsmith',
+    _PersonType.groom: 'groom',
+    _PersonType.rider: 'rider',
+    _PersonType.saddler: 'saddler'
   };
   _PersonType _state;
 }

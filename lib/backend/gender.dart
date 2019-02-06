@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' show BuildContext;
 import 'package:json_annotation/json_annotation.dart';
-import "package:pferdepass/generated/i18n.dart";
+import 'package:pferdepass/generated/i18n.dart';
 
 import 'tools.dart';
 

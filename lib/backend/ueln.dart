@@ -12,7 +12,7 @@ class Ueln extends Localized{
   Ueln();
 
   Ueln.fromString(this.ueln) {
-    if (!_isUeln(ueln)) throw FormatException("not a valid UELN: $ueln");
+    if (!_isUeln(ueln)) throw FormatException('not a valid UELN: $ueln');
   }
 
   factory Ueln.fromJson(Map<String, dynamic> json) => _$UelnFromJson(json);
