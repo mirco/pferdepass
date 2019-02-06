@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pferdepass/ui/dateTimePicker.dart';
 import 'package:pferdepass/backend/gender.dart';
 import 'package:pferdepass/backend/horse.dart';
 import 'package:pferdepass/backend/tools.dart';
@@ -7,14 +8,17 @@ import 'package:pferdepass/generated/i18n.dart';
 
 class ViewHorse extends StatefulWidget {
   @override
-  _ViewHorseState createState() => _ViewHorseState.fromHorse(horse);
+  _ViewHorseState createState() => _ViewHorseState(key: key, horse: horse);
 
-  ViewHorse.fromHorse(Horse horse) : this.horse = horse;
+  ViewHorse({this.key, this.horse}) : super(key: key);
 
+  final Key key;
   final Horse horse;
 }
 
 class _ViewHorseState extends State<ViewHorse> {
+  _ViewHorseState({this.key, this.horse});
+
   @override
   Widget build(BuildContext c) {
     var s = S.of(c);
@@ -22,72 +26,63 @@ class _ViewHorseState extends State<ViewHorse> {
       _buildTextFieldWidget(
         labelText: s.sportsname,
         content: horse.sportsName,
-        callback: (String value) {
-          setState(() {
-            horse.sportsName = value;
-          });
-        },
+        callback: (String value) => horse.sportsName = value,
       ),
       _buildTextFieldWidget(
-          labelText: s.breedname,
-          content: horse.breedName,
-          callback: (String value) {
-            setState(() {
-              horse.breedName = value;
-            });
-          }),
+        labelText: s.breedname,
+        content: horse.breedName,
+        callback: (String value) => horse.breedName = value,
+      ),
       _buildTextFieldWidget(
           labelText: s.ueln,
           content: horse.ueln,
           callback: (String value) {
-            setState(() {
-              horse.ueln = Ueln.fromString(value);
-            });
+            horse.ueln = Ueln.fromString(value);
           }),
-      _buildTextFieldWidget(
-          labelText: s.dateOfBirth,
-          content: formatDate(horse.dateOfBirth),
-          callback: (String value) {
-            setState(() {
-              horse.dateOfBirth = DateTime.parse(value);
-            });
-          }),
+      DateTimePicker(
+        key: key,
+        selectedDate: horse.dateOfBirth,
+        selectDate: (DateTime date) {
+          setState(() {
+            horse.dateOfBirth = date;
+          });
+        },
+        labelText: s.dateOfBirth,
+      ),
       _buildDropdownButtonFieldWidget<Race>(
-          labelText: s.race,
-          items: raceStrings,
-          value: horse.race,
-          context: c,
-          callback: (Race value) {
-            setState(() {
-              horse.race = value;
-            });
-          }),
+        labelText: s.race,
+        items: raceStrings,
+        value: horse.race,
+        context: c,
+        callback: (Race value) => horse.race = value,
+      ),
       _buildDropdownButtonFieldWidget<Color>(
-          labelText: s.color,
-          items: colorStrings,
-          value: horse.color,
-          context: c,
-          callback: (Color value) {
-            setState(() {
-              horse.color = value;
-            });
-          }),
+        labelText: s.color,
+        items: colorStrings,
+        value: horse.color,
+        context: c,
+        callback: (Color value) => horse.color = value,
+      ),
       _buildDropdownButtonFieldWidget<genderType>(
           labelText: s.gender,
           items: Gender.genderStrings,
           value: horse.gender.gender,
           context: c,
           callback: (genderType value) {
-            setState(() {
-              horse.gender = Gender(gender: value);
-            });
+            horse.gender = Gender(gender: value);
           }),
     ];
 
     return Scaffold(
       appBar: AppBar(
-        title: TextField(controller: TextEditingController(text: horse.name != null ? horse.name : ''),
-        onSubmitted: (String value){setState((){horse.name = value;});}),
+        title: TextField(
+            controller: TextEditingController(
+                text: horse.name != null ? horse.name : ''),
+            onSubmitted: (String value) {
+              setState(() {
+                horse.name = value;
+              });
+            }),
         actions: [Icon(Icons.delete)],
       ),
       body: Container(
@@ -124,7 +119,11 @@ class _ViewHorseState extends State<ViewHorse> {
             return content.toString();
         }(),
       ),
-      onFieldSubmitted: callback,
+      onFieldSubmitted: (String value) {
+        setState(() {
+          callback(value);
+        });
+      },
     );
   }
 
@@ -143,17 +142,19 @@ class _ViewHorseState extends State<ViewHorse> {
       value: value,
       decoration: InputDecoration(labelText: labelText),
       items: dropdownList,
-      onChanged: callback,
+      onChanged: (T value) {
+        setState(() {
+          callback(value);
+        });
+      },
     );
 
     return r;
   }
 
-  _ViewHorseState.fromHorse(Horse horse)
-      : this.horse = horse;
-
+  final Key key;
   final Horse horse;
   final _formKey = GlobalKey<FormState>();
 }
 
-typedef _HorseCallback<T> = void Function(T);
+typedef _HorseCallback<T> = T Function(T);

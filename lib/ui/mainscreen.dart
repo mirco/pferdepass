@@ -10,21 +10,21 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  _MainScreenState({String title = 'Pferdepass'})
-      : _horses = [],
-        _title = title {
-    _horses.add(buildHorse()); // for testing
+  _MainScreenState({this.key, this.title = 'Pferdepass', this.horses}){
+    if(horses == null)
+      this.horses = [];
+    horses.add(buildHorse()); // for testing
   }
 
   @override
   Widget build(BuildContext context) {
     List<HorseCard> horseCards = [];
-    for (var h in _horses) {
+    for (var h in horses) {
       horseCards.add(HorseCard.fromHorse(h));
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(_title),
+        title: Text(title),
       ),
       body: Center(
         child: ListView(children: horseCards),
@@ -35,8 +35,8 @@ class _MainScreenState extends State<MainScreen> {
             context,
             MaterialPageRoute(builder: (context) {
               var horse = Horse.fromName('New Horse');
-              _horses.add(horse);
-              return ViewHorse.fromHorse(horse);
+              horses.add(horse);
+              return ViewHorse(key: key, horse: horse);
             }),
           );
         },
@@ -46,13 +46,14 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  List<Horse> _horses;
-  String _title;
+  final Key key;
+  List<Horse> horses;
+  String title;
 }
 
 class HorseCard extends StatefulWidget {
   @override
-  _HorseCardState createState() => _HorseCardState.fromHorse(horse);
+  _HorseCardState createState() => _HorseCardState(key: key, horse: horse);
 
   HorseCard() : this.horse = Horse();
 
@@ -83,7 +84,7 @@ class _HorseCardState extends State<HorseCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ViewHorse.fromHorse(horse),
+              builder: (context) => ViewHorse(key: key, horse: horse),
             ),
           );
         },
@@ -91,7 +92,8 @@ class _HorseCardState extends State<HorseCard> {
     );
   }
 
-  _HorseCardState.fromHorse(Horse horse) : this.horse = horse;
+  _HorseCardState({this.key, this.horse});
 
+  final Key key;
   final Horse horse;
 }
