@@ -13,7 +13,7 @@ class _MainScreenState extends State<MainScreen> {
   _MainScreenState({String title = 'Pferdepass'})
       : _horses = [],
         _title = title {
-//    _horses.add(buildHorse());
+    _horses.add(buildHorse()); // for testing
   }
 
   @override
