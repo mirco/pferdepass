@@ -10,9 +10,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  _MainScreenState({this.key, this.title = 'Pferdepass', this.horses}){
-    if(horses == null)
-      this.horses = [];
+  _MainScreenState({this.key, this.title = 'Pferdepass', this.horses}) {
+    if (horses == null) this.horses = [];
     horses.add(buildHorse()); // for testing
   }
 
@@ -55,10 +54,9 @@ class HorseCard extends StatefulWidget {
   @override
   _HorseCardState createState() => _HorseCardState(key: key, horse: horse);
 
-  HorseCard() : this.horse = Horse();
+  HorseCard({this.key, this.horse});
 
-  HorseCard.fromHorse(this.horse);
-
+  final Key key;
   final Horse horse;
 }
 

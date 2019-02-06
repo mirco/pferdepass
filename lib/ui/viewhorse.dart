@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pferdepass/ui/dateTimePicker.dart';
 import 'package:pferdepass/backend/gender.dart';
 import 'package:pferdepass/backend/horse.dart';
 import 'package:pferdepass/backend/tools.dart';
 import 'package:pferdepass/backend/ueln.dart';
 import 'package:pferdepass/generated/i18n.dart';
+import 'package:pferdepass/ui/dateTimePicker.dart';
 
 class ViewHorse extends StatefulWidget {
   @override
@@ -76,8 +76,7 @@ class _ViewHorseState extends State<ViewHorse> {
     return Scaffold(
       appBar: AppBar(
         title: TextField(
-            controller: TextEditingController(
-                text: horse.name != null ? horse.name : ''),
+            controller: TextEditingController(text: horse.name ?? ''),
             onSubmitted: (String value) {
               setState(() {
                 horse.name = value;
@@ -104,7 +103,6 @@ class _ViewHorseState extends State<ViewHorse> {
     _HorseCallback<String> callback,
     BuildContext context,
   }) {
-    content ??= '';
     return TextFormField(
       decoration: InputDecoration(
         labelText: labelText,

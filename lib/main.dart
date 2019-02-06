@@ -5,15 +5,17 @@ import 'package:pferdepass/ui/mainscreen.dart';
 import 'generated/i18n.dart';
 
 void main() {
-  runApp(MaterialApp(
-    onGenerateTitle: (BuildContext context) => S.of(context).title,
-    title: 'Pferdepass',
-    home: MainScreen(),
-    localizationsDelegates: const [
-      S.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-    ],
-    supportedLocales: S.delegate.supportedLocales,
-  ));
+  runApp(myApp());
 }
+
+Widget myApp() => MaterialApp(
+  onGenerateTitle: (BuildContext context) => S.of(context).title,
+  title: 'Pferdepass',
+  home: MainScreen(),
+  localizationsDelegates: const [
+    S.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ],
+  supportedLocales: S.delegate.supportedLocales,
+);

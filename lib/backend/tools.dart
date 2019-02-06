@@ -31,7 +31,7 @@ Horse buildHorse() {
   return h;
 }
 
-String stringOrNull(dynamic v) {
+String stringOrNull<T>(T v) {
   if (v == null)
     return '';
   else
