@@ -13,12 +13,8 @@ int getCurrentAge(DateTime dateOfBirth) {
 
 var _dateFormatter = DateFormat('dd.MM.yyyy');
 
-String formatDate(DateTime date){
-  if(date != null)
-    return _dateFormatter.format(date);
-  else
-    return null;
-}
+String formatDate(DateTime date) =>
+    date != null ? _dateFormatter.format(date) : null;
 
 // function to create a horse object for testing
 Horse buildHorse() {
@@ -57,3 +53,5 @@ String ageToLocalizedPlural(int age) {
   }
 }
 
+Duration durationFromDays(int days) => Duration(days: days);
+int durationToDays(Duration d) => d?.inDays;
