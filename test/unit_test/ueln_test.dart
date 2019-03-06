@@ -14,6 +14,7 @@
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
 import 'package:pferdepass/backend/ueln.dart';
+import 'package:pferdepass/backend/ueln_database.dart';
 import 'package:test/test.dart';
 
 const ueln_de = 'DE 456789012345';
@@ -42,8 +43,17 @@ void main() {
       expect(u1, isNot(u6));
       expect(u1.hashCode, u1.ueln.hashCode);
     });
-    test('string conversion', () {
+    test('string conversion test', () {
       expect(u1.toString(), ueln_deu);
+    });
+    test('country code lookup test', () {
+      expect(uelnCountryCodeAlpha3FromNum(276), 'DEU');
+      expect(uelnCounryCodeAlpha2FromNum(276), 'DE');
+      expect(uelnCountryCodeNumFromAlpha2('DE'), 276);
+      expect(() => uelnCountryCodeAlpha3FromNum(999), throwsFormatException);
+      expect(() => uelnCounryCodeAlpha2FromNum(999), throwsFormatException);
+      expect(() => uelnCountryCodeNumFromAlpha2('X'), throwsFormatException);
+      expect(uelnCountryCodeNumFromAlpha2('XXX'), isNull);
     });
   });
 }
