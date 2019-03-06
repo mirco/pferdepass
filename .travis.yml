@@ -11,7 +11,6 @@ addons:
     - fonts-droid
 before_script:
   - git clone https://github.com/flutter/flutter.git -b stable --depth 1
-  - ./flutter/bin/flutter doctor
   - gem install coveralls-lcov
   - ./flutter/bin/flutter pub get
   - ./flutter/bin/flutter packages pub run build_runner build
