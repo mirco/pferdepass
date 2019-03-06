@@ -51,7 +51,8 @@ class Gender extends Localized {
 
   const Gender.constant(this.gender) : dateOfCastration = null;
 
-  Gender({this.gender, this.dateOfCastration}) {
+  Gender({this.gender = genderType.unknown, this.dateOfCastration}) {
+    assert(this.gender != null);
     if (gender != genderType.gelding && dateOfCastration != null)
       throw FormatException('Error: only geldings can be castrated');
   }

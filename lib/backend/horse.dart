@@ -150,7 +150,9 @@ class Horse {
       else
         result += s.years_old_male(ageToLocalizedPlural(age));
       result += ' ';
-    } else if (gender != null && gender.gender != genderType.unknown)
+    } else if (gender != null &&
+        gender.gender != genderType.unknown &&
+        gender.gender != null)
       result += '${Gender.genderStrings[gender.gender](c)} ';
     if (father != null && father.name != null)
       result += '${s.by} ${father.name} ';
