@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pferdepass/backend/gender.dart';
-import 'package:pferdepass/backend/tools.dart';
-import 'package:pferdepass/backend/ueln.dart';
 import 'package:pferdepass/generated/i18n.dart';
+
+import 'defaultValues.dart';
+import 'event.dart';
+import 'gender.dart';
+import 'tools.dart';
+import 'ueln.dart';
 
 part 'horse.g.dart';
 // needed for JSON serialization code generator
@@ -38,48 +41,83 @@ Map<Color, LocalizedString> colorStrings = {
   Color.grey: (BuildContext c) => S.of(c).grey,
 };
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class Horse {
+  @JsonKey(nullable: false)
+  int id;
+  @JsonKey(toJson: Ueln.uelnToString, fromJson: Ueln.uelnFromString)
   Ueln ueln;
-  String name;
+  String name = '';
   String sportsName;
   String breedName;
-  Gender gender;
+  Gender gender = Gender();
   DateTime dateOfBirth;
-  Horse father;
-  Horse mother;
+  int fatherId;
+  int motherId;
   Race race;
   Color color;
+  List<Event> events = <Event>[];
+  @JsonKey(fromJson: durationFromDays, toJson: durationToDays)
+  Duration farrierInterval = defaultFarrierInterval;
+  bool primaryVaccinationFinished;
 
-//  var events; TODO: implement events, contains measurements as well.
-//  Map<dynamic, List<Person>> persons; TODO: implement connected persons
+  //  Map<dynamic, List<Person>> persons; TODO: implement connected persons
+  static Map<int, Horse> horseDb = {};
 
   Horse(
-      {this.ueln,
-      this.name = '',
+      {this.id,
+      this.ueln,
+      this.name,
       this.sportsName,
       this.breedName,
-      this.gender = const Gender(),
+      this.gender,
       this.dateOfBirth,
-      this.father,
-      this.mother,
+      this.fatherId,
+      this.motherId,
       this.race,
-      this.color});
+      this.color,
+      this.events,
+      this.farrierInterval,
+      this.primaryVaccinationFinished});
 
-  Horse.fromName(String name) : this(name: name);
+  factory Horse.fromName(String name) => Horse(name: name);
 
-  Horse.fromUELN(Ueln ueln) : this(ueln: ueln);
+  factory Horse.fromUELN(Ueln ueln) => Horse(ueln: ueln);
 
   get age => dateOfBirth != null ? getCurrentAge(dateOfBirth) : null;
+  get father => horseDb[fatherId];
+  get mother => horseDb[motherId];
 
   factory Horse.fromJson(Map<String, dynamic> json) => _$HorseFromJson(json);
 
   Map<String, dynamic> toJson() => _$HorseToJson(this);
 
+  bool operator ==(other) {
+    return other is Horse &&
+        id == other.id &&
+        ueln == other.ueln &&
+        name == other.name &&
+        sportsName == other.sportsName &&
+        breedName == other.breedName &&
+        gender == other.gender &&
+        dateOfBirth == other.dateOfBirth &&
+        fatherId == other.fatherId &&
+        motherId == other.motherId &&
+        race == other.race &&
+        color == other.color &&
+        events == other.events &&
+        farrierInterval == other.farrierInterval &&
+        primaryVaccinationFinished == other.primaryVaccinationFinished;
+  }
+
+  int get hashCode => id ?? 0;
+
+  // TODO: change horse description generator
+  // this is realy ugly and probably doesn't translate well either
   String description(BuildContext c) {
     String result = '';
     var s = S.of(c);
-    if (age >= 2) {
+    if (age != null && age >= 2) {
       if (gender != null && gender.gender == genderType.mare)
         result += s.years_old_female(ageToLocalizedPlural(age));
       else if (gender == null || gender.gender == genderType.unknown)
@@ -89,7 +127,7 @@ class Horse {
       result += ' ';
     }
     if (color != null) result += '${colorStrings[color](c)} ';
-    if (age < 2) {
+    if (age != null && age < 2) {
       if (gender != null && gender.gender == genderType.mare)
         result += s.years_old_female(ageToLocalizedPlural(age));
       else if (gender == null || gender.gender == genderType.unknown)
@@ -102,7 +140,7 @@ class Horse {
     if (father != null && father.name != null)
       result += '${s.by} ${father.name} ';
     if (mother != null && mother.name != null) {
-      result += '${s.out_of} mother.name ';
+      result += '${s.out_of} ${mother.name} ';
       if (mother.father != null && mother.father.name != null)
         result += '${s.by} ${mother.father.name}';
     }
