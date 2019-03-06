@@ -23,6 +23,6 @@ void main() {
       events.add(Farrier(date: DateTime.now()));
     });
     test('constructor test', () {});
-    test('json serialization', () {});
+    test('json serialization test', () {});
   });
 }

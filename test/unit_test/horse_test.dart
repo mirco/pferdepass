@@ -54,7 +54,7 @@ void main() {
         primaryVaccinationFinished: primaryVaccinationFinished,
       );
     });
-    test('constructor tests', () {
+    test('constructor test', () {
       expect(horse.id, equals(id));
       expect(horse.ueln, equals(ueln));
       expect(horse.name, equals(name));
@@ -70,7 +70,7 @@ void main() {
       expect(
           horse.primaryVaccinationFinished, equals(primaryVaccinationFinished));
     });
-    test('operator tests', () {
+    test('operator test', () {
       Horse horse2 = Horse(name: 'different horse');
       Horse horse3 = Horse(
         id: id,
@@ -114,7 +114,7 @@ void main() {
       expect(horse, isNot(equals(horse2)));
       expect(horse3, isNot(equals(horse2)));
     });
-    test('getter tests', () {
+    test('getter test', () {
       Horse father = Horse(id: fatherId), mother = Horse(id: motherId);
       expect(horse.age, isZero);
       expect(horse.father, isNull);
@@ -127,7 +127,7 @@ void main() {
       expect(horse.father, same(father));
       expect(horse.mother, same(mother));
     });
-    test('json serialization', () {
+    test('json serialization test', () {
       final serialized = jsonEncode(horse.toJson());
       final deserialized = Horse.fromJson(jsonDecode(serialized));
       expect(deserialized, equals(horse));

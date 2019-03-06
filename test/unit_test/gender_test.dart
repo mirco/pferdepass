@@ -25,7 +25,7 @@ void main() {
       g3 = gelding;
       g4 = Gender(gender: genderType.gelding, dateOfCastration: DateTime.now());
     });
-    test('costructor test', () {
+    test('constructor test', () {
       expect(g1.gender, genderType.stallion);
       expect(g1.dateOfCastration, isNull);
       expect(g2.gender, genderType.mare);
