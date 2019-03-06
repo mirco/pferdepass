@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pferdepass/backend/horse.dart';
-import 'package:pferdepass/backend/tools.dart';
+import 'package:pferdepass/backend/horseDB.dart';
+import 'package:pferdepass/generated/i18n.dart';
 
 import 'viewhorse.dart';
 
@@ -10,54 +11,121 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  _MainScreenState({this.key, this.title = 'Pferdepass', this.horses}) {
-    if (horses == null) this.horses = [];
-    horses.add(buildHorse()); // for testing
+  _MainScreenState();
+
+  @override
+  void initState() {
+    super.initState();
+    // asynchronously load the database file
+    HorseDb().loadDb().then((HorseDb value) {
+      setState(() {
+        horseDb = value;
+      });
+    });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext c) {
     List<HorseCard> horseCards = [];
-    for (var h in horses) {
-      horseCards.add(HorseCard.fromHorse(h));
+    var s = S.of(c);
+    for (final h in horseDb.horses) {
+      horseCards.add(HorseCard(
+        horse: h,
+        horseDb: horseDb,
+      ));
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(s.title),
       ),
       body: Center(
         child: ListView(children: horseCards),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              var horse = Horse.fromName('New Horse');
-              horses.add(horse);
-              return ViewHorse(key: key, horse: horse);
-            }),
-          );
+        onPressed: () async {
+          final h = await showDialog<Horse>(
+              context: c,
+              builder: (BuildContext c) => _addHorseDialogBuilder(c));
+          setState(() {
+            if (h != null) horseDb.add(h);
+          });
         },
-        tooltip: 'add Horse',
+        tooltip: s.add_horse,
         child: Icon(Icons.add),
       ),
     );
   }
 
-  final Key key;
-  List<Horse> horses;
-  String title;
+  Widget _addHorseDialogBuilder(BuildContext c) {
+    final s = S.of(c);
+    final horse = Horse(); // create the new horse, empty for now
+    // create the dialog to fill the horse's names
+    return SimpleDialog(
+        title: Text(s.input_names),
+        contentPadding: EdgeInsets.all(8.0),
+        children: <Widget>[
+          Form(
+            child: Container(
+              width: double.maxFinite,
+              height: 256.0,
+              child: ListView(children: <Widget>[
+                TextFormField(
+                    controller: TextEditingController(text: horse.name),
+                    decoration: InputDecoration(hintText: s.name_expl),
+                    onSaved: (String value) {
+                      setState(() {
+                        horse.name = value;
+                      });
+                    }),
+                TextFormField(
+                    controller: TextEditingController(text: horse.sportsName),
+                    decoration: InputDecoration(hintText: s.sportsname_expl),
+                    onSaved: (String value) {
+                      setState(() {
+                        horse.sportsName = value;
+                      });
+                    }),
+                TextFormField(
+                    controller: TextEditingController(text: horse.breedName),
+                    decoration: InputDecoration(hintText: s.breedname_expl),
+                    onSaved: (String value) {
+                      setState(() {
+                        horse.breedName = value;
+                      });
+                    }),
+              ]),
+            ),
+          ),
+          Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                FlatButton(
+                    child: Text(s.cancel),
+                    onPressed: () {
+                      Navigator.pop(c, null);
+                    }),
+                RaisedButton(
+                  child: Text(s.finish),
+                  onPressed: () {
+                    Navigator.pop(c, horse);
+                  },
+                ),
+              ])
+        ]);
+  }
+
+  HorseDb horseDb = HorseDb();
 }
 
 class HorseCard extends StatefulWidget {
   @override
-  _HorseCardState createState() => _HorseCardState(key: key, horse: horse);
+  _HorseCardState createState() =>
+      _HorseCardState(horse: horse, horseDb: horseDb);
 
-  HorseCard({this.key, this.horse});
+  HorseCard({this.horse, this.horseDb});
 
-  final Key key;
   final Horse horse;
+  final HorseDb horseDb;
 }
 
 class _HorseCardState extends State<HorseCard> {
@@ -73,16 +141,19 @@ class _HorseCardState extends State<HorseCard> {
 
     return Card(
       child: ListTile(
-        leading: null,
         // TODO: Horse profile pic here
+        leading: Container(width: 64.0, height: 64.0, child: Placeholder()),
         title: Text(horse.name),
-        trailing: Text(additionalNames),
+        trailing: () {
+          return additionalNames != null ? Text(additionalNames) : null;
+        }(),
         subtitle: Text(horse.description(context)),
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ViewHorse(key: key, horse: horse),
+              builder: (context) =>
+                  ViewHorse(key: key, horse: horse, horseDb: horseDb),
             ),
           );
         },
@@ -90,8 +161,9 @@ class _HorseCardState extends State<HorseCard> {
     );
   }
 
-  _HorseCardState({this.key, this.horse});
+  _HorseCardState({this.key, this.horse, this.horseDb});
 
   final Key key;
   final Horse horse;
+  final HorseDb horseDb;
 }

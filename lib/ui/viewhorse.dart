@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pferdepass/backend/gender.dart';
 import 'package:pferdepass/backend/horse.dart';
+import 'package:pferdepass/backend/horseDB.dart';
 import 'package:pferdepass/backend/tools.dart';
 import 'package:pferdepass/backend/ueln.dart';
 import 'package:pferdepass/generated/i18n.dart';
@@ -8,16 +9,22 @@ import 'package:pferdepass/ui/dateTimePicker.dart';
 
 class ViewHorse extends StatefulWidget {
   @override
-  _ViewHorseState createState() => _ViewHorseState(key: key, horse: horse);
+  _ViewHorseState createState() =>
+      _ViewHorseState(key: key, horse: horse, horseDb: horseDb);
 
-  ViewHorse({this.key, this.horse}) : super(key: key);
+  ViewHorse({this.key, @required this.horse, @required this.horseDb})
+      : super(key: key);
 
   final Key key;
   final Horse horse;
+  final HorseDb horseDb;
 }
 
 class _ViewHorseState extends State<ViewHorse> {
-  _ViewHorseState({this.key, this.horse});
+  _ViewHorseState({this.key, @required this.horse, @required this.horseDb}) {
+    assert(horse != null);
+    assert(horseDb != null);
+  }
 
   @override
   Widget build(BuildContext c) {
@@ -37,10 +44,11 @@ class _ViewHorseState extends State<ViewHorse> {
           labelText: s.ueln,
           content: horse.ueln,
           callback: (String value) {
-            horse.ueln = Ueln.fromString(value);
+            try {
+              horse.ueln = Ueln.fromString(value);
+            } on FormatException {}
           }),
       DateTimePicker(
-        key: key,
         selectedDate: horse.dateOfBirth,
         selectDate: (DateTime date) {
           setState(() {
@@ -82,7 +90,21 @@ class _ViewHorseState extends State<ViewHorse> {
                 horse.name = value;
               });
             }),
-        actions: [Icon(Icons.delete)],
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              horseDb.saveDb();
+              Navigator.pop(c, horse);
+            }),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.delete),
+              tooltip: s.delete_horse,
+              onPressed: () {
+                horseDb.remove(horse);
+                Navigator.pop(c);
+              }),
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(10.0),
@@ -98,7 +120,7 @@ class _ViewHorseState extends State<ViewHorse> {
 
   Widget _buildTextFieldWidget<T>({
     @required String labelText,
-    dynamic content = '',
+    var content = '',
     Widget onClicked,
     _HorseCallback<String> callback,
     BuildContext context,
@@ -109,9 +131,9 @@ class _ViewHorseState extends State<ViewHorse> {
       ),
       controller: TextEditingController(
         text: () {
+          content ??= '';
           assert(content != null);
           if (content is Localized) {
-            assert(context != null);
             return content.toLocalizedString(context);
           } else
             return content.toString();
@@ -152,6 +174,7 @@ class _ViewHorseState extends State<ViewHorse> {
 
   final Key key;
   final Horse horse;
+  final HorseDb horseDb;
   final _formKey = GlobalKey<FormState>();
 }
 
