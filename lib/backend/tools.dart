@@ -26,7 +26,7 @@ int getCurrentAge(DateTime dateOfBirth) {
   return DateTime.now().year - dateOfBirth.year;
 }
 
-var _dateFormatter = DateFormat('dd.MM.yyyy');
+var _dateFormatter = DateFormat('d.M.yyyy');
 
 String formatDate(DateTime date) =>
     date != null ? _dateFormatter.format(date) : null;

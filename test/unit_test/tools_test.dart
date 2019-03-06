@@ -13,13 +13,21 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
+import 'package:pferdepass/backend/tools.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('dateformatter test', () {
-    return false;
+    final date = DateTime(2019, 3, 6);
+    final formatted = formatDate(date);
+    expect(formatted, '6.3.2019');
   });
   test('current age from birthdate test', () {
-    return false;
+    final date = DateTime.now();
+    final age = getCurrentAge(date);
+    expect(age, 0);
+    final date2 = date.add(durationFromDays(-365));
+    final age2 = getCurrentAge(date2);
+    expect(age2, 1);
   });
 }
