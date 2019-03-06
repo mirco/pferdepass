@@ -13,6 +13,10 @@ enum genderType {
   gelding,
 }
 
+const Gender stallion = Gender.constant(genderType.stallion);
+const Gender mare = Gender.constant(genderType.mare);
+const Gender gelding = Gender.constant(genderType.gelding);
+
 @JsonSerializable()
 class Gender extends Localized {
   final genderType gender;
@@ -30,9 +34,25 @@ class Gender extends Localized {
     return genderStrings[gender](context);
   }
 
-  const Gender({this.gender = genderType.unknown, this.dateOfCastration});
+  const Gender.constant(this.gender) : dateOfCastration = null;
+
+  Gender({this.gender, this.dateOfCastration}) {
+    if (gender != genderType.gelding && dateOfCastration != null)
+      throw FormatException('Error: only geldings can be castrated');
+  }
+
+  factory Gender.update({Gender gender, DateTime dateOfCastration}) {
+    return Gender(gender: gender.gender, dateOfCastration: dateOfCastration);
+  }
 
   factory Gender.fromJson(Map<String, dynamic> json) => _$GenderFromJson(json);
 
   Map<String, dynamic> toJson() => _$GenderToJson(this);
+
+  bool operator ==(other) =>
+      other is Gender &&
+      gender == other.gender &&
+      dateOfCastration == other.dateOfCastration;
+
+  int get hashCode => gender.index;
 }
