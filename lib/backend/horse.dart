@@ -133,7 +133,7 @@ class Horse {
     String result = '';
     var s = S.of(c);
     if (age != null && age >= 2) {
-      if (gender != null && gender.gender == genderType.mare)
+      if (gender != null && gender == mare)
         result += s.years_old_female(ageToLocalizedPlural(age));
       else if (gender == null || gender.gender == genderType.unknown)
         result += s.years_old(ageToLocalizedPlural(age));
@@ -143,7 +143,7 @@ class Horse {
     }
     if (color != null) result += '${colorStrings[color](c)} ';
     if (age != null && age < 2) {
-      if (gender != null && gender.gender == genderType.mare)
+      if (gender != null && gender == mare)
         result += s.years_old_female(ageToLocalizedPlural(age));
       else if (gender == null || gender.gender == genderType.unknown)
         result += s.years_old(ageToLocalizedPlural(age));

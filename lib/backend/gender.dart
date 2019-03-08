@@ -28,6 +28,7 @@ enum genderType {
   gelding,
 }
 
+// constants for convenience;
 const Gender stallion = Gender.constant(genderType.stallion);
 const Gender mare = Gender.constant(genderType.mare);
 const Gender gelding = Gender.constant(genderType.gelding);
@@ -70,5 +71,6 @@ class Gender extends Localized {
       gender == other.gender &&
       dateOfCastration == other.dateOfCastration;
 
+  // just use the gender enum's value here
   int get hashCode => gender.index;
 }
