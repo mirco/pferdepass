@@ -21,6 +21,13 @@ import 'package:pferdepass/generated/i18n.dart';
 import 'viewhorse.dart';
 
 class MainScreen extends StatefulWidget {
+  MainScreen();
+
+  factory MainScreen.forDesignTime() {
+    // TODO: add arguments
+    return new MainScreen();
+  }
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -167,8 +174,7 @@ class _HorseCardState extends State<HorseCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  ViewHorse(key: key, horse: horse, horseDb: horseDb),
+              builder: (context) => ViewHorse(horse: horse, horseDb: horseDb),
             ),
           );
         },
@@ -176,9 +182,8 @@ class _HorseCardState extends State<HorseCard> {
     );
   }
 
-  _HorseCardState({this.key, this.horse, this.horseDb});
+  _HorseCardState({this.horse, this.horseDb});
 
-  final Key key;
   final Horse horse;
   final HorseDb horseDb;
 }

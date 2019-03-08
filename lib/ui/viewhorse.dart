@@ -27,10 +27,14 @@ class ViewHorse extends StatefulWidget {
   _ViewHorseState createState() =>
       _ViewHorseState(key: key, horse: horse, horseDb: horseDb);
 
-  ViewHorse({this.key, @required this.horse, @required this.horseDb})
-      : super(key: key);
+  ViewHorse({@required this.horse, @required this.horseDb});
 
-  final Key key;
+  factory ViewHorse.forDesignTime() {
+    Horse designTimeHorse = Horse(name: 'DesignTimeHorse');
+    HorseDb designTimeDb = HorseDb(dbName: 'designTimeDb');
+    return new ViewHorse(horse: designTimeHorse, horseDb: designTimeDb);
+  }
+
   final Horse horse;
   final HorseDb horseDb;
 }
