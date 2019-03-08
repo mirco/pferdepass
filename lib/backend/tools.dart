@@ -16,9 +16,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'gender.dart';
-import 'horse.dart';
-
 // yearwise age as used with horses, i.e. all Horses get one year older on the first of january,
 // no matter the actual birthday.
 int getCurrentAge(DateTime dateOfBirth) {
@@ -30,17 +27,6 @@ var _dateFormatter = DateFormat('d.M.yyyy');
 
 String formatDate(DateTime date) =>
     date != null ? _dateFormatter.format(date) : null;
-
-// function to create a horse object for testing
-Horse buildHorse() {
-  var h = Horse.fromName('Viva');
-  h.color = Color.grey;
-  h.gender = Gender(gender: genderType.mare);
-  h.dateOfBirth = DateTime(2012, 2, 3); // 3.2.2012
-  h.sportsName = 'Viva DH';
-  h.race = Race.westfalian;
-  return h;
-}
 
 String stringOrNull<T>(T v) {
   if (v == null)
