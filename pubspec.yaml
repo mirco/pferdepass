@@ -82,3 +82,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
+  fonts:
+   - family:  Pferdepass
+     fonts:
+      - asset: res/icons/Pferdepass.ttf

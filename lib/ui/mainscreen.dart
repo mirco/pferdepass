@@ -164,7 +164,8 @@ class _HorseCardState extends State<HorseCard> {
     return Card(
       child: ListTile(
         // TODO: Horse profile pic here
-        leading: Container(width: 64.0, height: 64.0, child: Placeholder()),
+        leading: Container(
+            width: 64.0, height: 64.0, child: Icon(Pferdepass.pferdepass)),
         title: Text(horse.name),
         trailing: () {
           return additionalNames != null ? Text(additionalNames) : null;
