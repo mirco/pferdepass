@@ -38,5 +38,6 @@
   "finish": "finish",
   "close": "close",
   "cancel": "cancel",
-  "delete_horse": "delete this horse"
+  "delete_horse": "delete this horse",
+  "my_horses": "My Horses"
 }

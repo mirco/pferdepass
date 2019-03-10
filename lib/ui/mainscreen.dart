@@ -19,6 +19,7 @@ import 'package:pferdepass/backend/horse.dart';
 import 'package:pferdepass/backend/horseDB.dart';
 import 'package:pferdepass/generated/i18n.dart';
 
+import 'pferdepass_icons.dart';
 import 'viewhorse.dart';
 
 class MainScreen extends StatefulWidget {
@@ -36,6 +37,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   String versionName;
   String versionCode;
+
   _MainScreenState();
 
   @override
@@ -85,6 +87,23 @@ class _MainScreenState extends State<MainScreen> {
         tooltip: s.add_horse,
         child: Icon(Icons.add),
       ),
+      drawer: Drawer(
+          child: ListView(children: <Widget>[
+        DrawerHeader(child: Icon(Pferdepass.pferdepass)),
+        ListTile(
+          title: Text(s.my_horses),
+        ),
+        AboutListTile(
+          applicationIcon: Icon(Pferdepass.pferdepass),
+          applicationName: s.title,
+          applicationVersion: versionName + versionCode,
+          applicationLegalese: '''Copyright Mirco Tischler <mt-ml@gmx.de>
+
+published under the GPL version 3
+
+Icons made by FreePik from flaticons.com''',
+        )
+      ])),
     );
   }
 

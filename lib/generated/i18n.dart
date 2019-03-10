@@ -39,6 +39,7 @@ class S implements WidgetsLocalizations {
   String get holsteinian => "Holsteinian";
   String get input_names => "What is the name of the Horse?";
   String get mare => "Mare";
+  String get my_horses => "My Horses";
   String get name => "Name";
   String get name_expl => "The name under which the horse is known";
   String get next => "Next";
