@@ -14,6 +14,7 @@
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:pferdepass/backend/horse.dart';
 import 'package:pferdepass/backend/horseDB.dart';
 import 'package:pferdepass/generated/i18n.dart';
@@ -33,6 +34,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  String versionName;
+  String versionCode;
   _MainScreenState();
 
   @override
@@ -44,12 +47,19 @@ class _MainScreenState extends State<MainScreen> {
         horseDb = value;
       });
     });
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      setState(() {
+        versionName = packageInfo.version;
+        versionCode = packageInfo.buildNumber;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext c) {
     List<HorseCard> horseCards = [];
     var s = S.of(c);
+
     for (final h in horseDb.horses) {
       horseCards.add(HorseCard(
         horse: h,
