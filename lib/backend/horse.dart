@@ -65,7 +65,7 @@ class Horse {
   String name = '';
   String sportsName;
   String breedName;
-  Gender gender = Gender();
+  Gender gender;
   DateTime dateOfBirth;
   int fatherId;
   int motherId;
@@ -93,7 +93,7 @@ class Horse {
       this.color,
       this.events,
       this.farrierInterval,
-      this.primaryVaccinationFinished});
+      this.primaryVaccinationFinished}) {this.gender ??= Gender(gender: genderType.unknown);}
 
   factory Horse.fromName(String name) => Horse(name: name);
 
