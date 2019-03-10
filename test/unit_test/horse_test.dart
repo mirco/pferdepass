@@ -37,6 +37,7 @@ const primaryVaccinationFinished = true;
 void main() {
   group('Horse', () {
     Horse horse;
+    Horse horseNoValues;
     setUp(() {
       horse = Horse(
         id: id,
@@ -53,6 +54,7 @@ void main() {
         farrierInterval: farrierInterval,
         primaryVaccinationFinished: primaryVaccinationFinished,
       );
+      horseNoValues = Horse();
     });
     test('constructor test', () {
       expect(horse.id, equals(id));
@@ -69,6 +71,19 @@ void main() {
       expect(horse.farrierInterval, equals(farrierInterval));
       expect(
           horse.primaryVaccinationFinished, equals(primaryVaccinationFinished));
+      expect(horseNoValues.id, equals(null));
+      expect(horseNoValues.ueln, equals(null));
+      expect(horseNoValues.name, equals(null));
+      expect(horseNoValues.sportsName, equals(null));
+      expect(horseNoValues.breedName, equals(null));
+      expect(horseNoValues.gender, equals(Gender(gender: genderType.unknown)));
+      expect(horseNoValues.dateOfBirth, equals(null));
+      expect(horseNoValues.fatherId, equals(null));
+      expect(horseNoValues.motherId, equals(null));
+      expect(horseNoValues.race, equals(null));
+      expect(horseNoValues.color, equals(null));
+      expect(horseNoValues.farrierInterval, equals(null));
+      expect(horseNoValues.primaryVaccinationFinished, equals(null));
     });
     test('operator test', () {
       Horse horse2 = Horse(name: 'different horse');
