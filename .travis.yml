@@ -1,23 +1,118 @@
-os:
-- linux
+language: generic
+os: linux
 sudo: false
+env:
+- TESTS="test/unit_test"
+- TESTS="test/widget_test"
 addons:
   apt:
-    # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
     sources:
     - ubuntu-toolchain-r-test # if we don't specify this, the libstdc++6 we get is the wrong version
     packages:
     - libstdc++6
+    - lib32stdc++6
     - fonts-droid
 before_script:
-  - git clone https://github.com/flutter/flutter.git -b stable --depth 1
-  - gem install coveralls-lcov
-  - ./flutter/bin/flutter pub get
-  - ./flutter/bin/flutter packages pub run build_runner build
-script:
-  - ./flutter/bin/flutter test --coverage
-after_success:
-  - coveralls-lcov coverage/lcov.info
+- export PATH="${HOME}/flutter/bin:${HOME}/flutter/bin/cache/dart-sdk/bin:${HOME}/.pub-cache/bin:${PATH}"
+- gem install coveralls-lcov
+- test -d ${HOME}/flutter/.git && (cd ${HOME}/flutter; git pull) || git clone https://github.com/flutter/flutter.git --depth=1 --branch=stable ${HOME}/flutter
+- flutter precache
+- pub global activate coverage
+- flutter packages get
+- flutter packages pub run build_runner build
+script: flutter test --coverage ${TESTS}
+after_success: coveralls-lcov coverage/lcov.info
 cache:
   directories:
-  - $HOME/.pub-cache
+  - ${HOME}/.pub-cache
+  - ${HOME}/flutter
+jobs:
+  include:
+  - stage: integration
+    env:
+      global:
+      - TESTS="test/integration_test"
+      - ANDROID_BUILD_TOOLS_VERSION=28.0.3
+      - ANDROID_ABI=armeabi-v7a
+      - ANDROID_API_LEVEL=25
+    language: android
+    android:
+      components:
+      - tools
+      - platform-tools
+      - build-tools-${ANDROID_BUILD_TOOLS_VERSION}
+      - android-${ANDROID_API_LEVEL}
+      - extra-google-m2repository
+      - sys-img-${ANDROID_ABI}-google_apis-${ANDROID_API_LEVEL}
+    sudo: true
+    os: linux
+    before_install: touch ${HOME}/.android/repositories.cfg
+    before_script:
+    # update sdk to get latest tools
+    - yes | sdkmanager --update
+    # start emulator
+    - echo no | avdmanager create avd -n integration_test -k "system-images;android-${ANDROID_API_LEVEL};google_apis;${ANDROID_ABI}" -c 100M
+    - (cd $(dirname $(which emulator)); emulator -avd integration_test -no-audio -no-window -gpu swiftshader &)
+    # install flutter
+    - gem install coveralls-lcov
+    - test -d ${HOME}/flutter/.git && (cd ${HOME}/flutter; git pull) || git clone https://github.com/flutter/flutter.git --depth=1 --branch=stable ${HOME}/flutter
+    - export PATH="${PATH}":"${HOME}/.pub-cache/bin"
+    - export PATH=${HOME}/flutter/bin:${HOME}/flutter/bin/cache/dart-sdk/bin:${PATH}
+    - yes | flutter doctor --android-licenses
+    - flutter doctor -v
+    - pub global activate coverage
+    # Wait for emulator to finish startup.
+    - android-wait-for-emulator
+    - adb shell input keyevent 82
+    - flutter devices
+    - flutter packages get
+    - flutter packages pub get
+    - flutter precache
+    - flutter packages pub run build_runner build
+    script: travis_retry flutter drive --target=test/integration_test/app.dart --driver=test/integration_test/app_test.dart
+    after_success: coveralls-lcov coverage/lcov.info
+    cache:
+      directories:
+      - ${HOME}/.android/build-cache
+      - ${HOME}/.pub-cache
+      - ${HOME}/flutter
+      - ${HOME}/.gradle/caches
+      - ${HOME}/.gradle/wrapper
+    before_cache:
+    - rm -f  ${HOME}/.gradle/caches/modules-2/modules-2.lock
+    - rm -rf ${HOME}/.gradle/caches/*/plugin-resolution/
+    - rm -rf ${HOME}/.pub-cache/global_packages/coverage/.packages
+#  - <<: *integration-test-stage
+#    os: osx
+#    # use oldest flutter supported version of xcode
+#    osx_image: xcode8.0
+#    env: running driver on simulator
+#    # Run integration tests on ios
+#    before_install:
+#    - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
+#    - brew update
+#    - brew install libimobiledevice
+#    - brew install ideviceinstaller
+#    - brew install ios-deploy
+#    - brew install cocoapods || echo 'ignore exit(1)'
+#    - brew link --overwrite cocoapods
+#    # install flutter
+#    - gem install coveralls-lcov
+#    - git clone https://github.com/flutter/flutter.git --depth=1 --branch=stable || (cd flutter; git pull
+#    - export PATH="$PATH":"$HOME/.pub-cache/bin"
+#    - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+#    - flutter precache
+#    - flutter doctor -v
+#    - pub global activate coverage
+#    - flutter devices
+#    cache:
+#      directories:
+#      - $HOME/android-sdk-dl
+#      - $HOME/android-sdk
+#      - $HOME/.android/build-cache
+
+#  - stage: Ready to deploy
+#    os: osx
+#    language: generic
+#    env: not implemented 🤓
+#    script: echo "Deploying to store ..."
