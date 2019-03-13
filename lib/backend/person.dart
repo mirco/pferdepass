@@ -1,3 +1,18 @@
+/* This file is part of Pferdepass.                                           */
+/*                                                                            */
+/* Pferdepass is free software: you can redistribute it and/or modify         */
+/* it under the terms of the GNU General Public License as published by       */
+/* the Free Software Foundation, either version 3 of the License, or          */
+/* (at your option) any later version.                                        */
+/*                                                                            */
+/* Pferdepass is distributed in the hope that it will be useful,              */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of             */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              */
+/* GNU General Public License for more details.                               */
+/*                                                                            */
+/* You should have received a copy of the GNU General Public License          */
+/* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pferdepass/backend/horse.dart';
 
@@ -29,7 +44,7 @@ class PersonType {
     return _strings[_state];
   }
 
-  PersonType(): _state = _PersonType.unknown;
+  PersonType() : _state = _PersonType.unknown;
 
   PersonType.fromString(String s) {
     if (!_strings.containsValue(s)) throw FormatException;
@@ -37,7 +52,8 @@ class PersonType {
         (var key, var value) => value == s ? _state = key : _state = _state);
   }
 
-  factory PersonType.fromJson(Map<String, dynamic> json) => _$PersonTypeFromJson(json);
+  factory PersonType.fromJson(Map<String, dynamic> json) =>
+      _$PersonTypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$PersonTypeToJson(this);
 
@@ -45,7 +61,7 @@ class PersonType {
     _PersonType.unknown: 'unknown',
     _PersonType.owner: 'owner',
     _PersonType.vet: 'veterinarian',
-    _PersonType.hoofsmith: 'hoofsmith',
+    _PersonType.farrier: 'farrier',
     _PersonType.groom: 'groom',
     _PersonType.rider: 'rider',
     _PersonType.saddler: 'saddler'
@@ -57,7 +73,7 @@ enum _PersonType {
   unknown,
   owner,
   vet,
-  hoofsmith,
+  farrier,
   groom,
   rider,
   saddler,
