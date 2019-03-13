@@ -13,15 +13,19 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
+import 'package:Pferdepass/backend/horse.dart';
+import 'package:Pferdepass/generated/i18n.dart' as i18n;
+import 'package:Pferdepass/ui/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:Pferdepass/generated/i18n.dart' as i18n;
-import 'package:Pferdepass/ui/mainscreen.dart';
 
 void main() {
   group('MainScreen', () {
-    setUp(() {});
+    Horse horse;
+    setUp(() {
+      horse = Horse();
+    });
     testWidgets('constructor test', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: MainScreen(),
@@ -32,7 +36,15 @@ void main() {
         ],
         supportedLocales: i18n.S.delegate.supportedLocales,
       ));
+
       expect(find.byType(ListView), findsOneWidget);
+      expect(find.byType(HorseCard), findsNothing);
+
+      State<MainScreen> state = tester.firstState(find.byType(MainScreen));
+      addHorseToMainScreen(state, horse);
+      await tester.pump();
+
+      expect(find.byType(HorseCard), findsOneWidget);
     });
   });
 }
