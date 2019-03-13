@@ -35,15 +35,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String versionName = '';
-  String versionCode = '';
+  var horseDb = HorseDb();
+  var versionName = '';
+  var versionCode = '';
 
   _MainScreenState();
 
   @override
   void initState() {
     super.initState();
-    // asynchronously load the database file
+    // asynchronously load the database file and version informations
     HorseDb().loadDb().then((value) => setState(() => horseDb = value));
     PackageInfo.fromPlatform().then((packageInfo) => setState(() {
           versionName = packageInfo.version;
@@ -83,9 +84,14 @@ class _MainScreenState extends State<MainScreen> {
       ),
       drawer: Drawer(
           child: ListView(children: <Widget>[
-        DrawerHeader(child: Icon(Pferdepass.pferdepass)),
+        DrawerHeader(
+            child: FittedBox(
+                child: Icon(Pferdepass.pferdepass), fit: BoxFit.contain)),
         ListTile(
           title: Text(s.my_horses),
+        ),
+        ListTile(
+          title: Text(s.events),
         ),
         AboutListTile(
           applicationIcon: Icon(Pferdepass.pferdepass),
@@ -105,57 +111,41 @@ class _MainScreenState extends State<MainScreen> {
         title: Text(s.input_names),
         contentPadding: EdgeInsets.all(8.0),
         children: <Widget>[
-          Form(
-            child: Container(
-              width: double.maxFinite,
-              height: 256.0,
+          Container(
+            child: Form(
               child: ListView(children: <Widget>[
                 TextFormField(
                     controller: TextEditingController(text: horse.name),
                     decoration: InputDecoration(hintText: s.name_expl),
-                    onSaved: (String value) {
-                      setState(() {
-                        horse.name = value;
-                      });
-                    }),
+                    onSaved: (String value) =>
+                        setState(() => horse.name = value)),
                 TextFormField(
                     controller: TextEditingController(text: horse.sportsName),
                     decoration: InputDecoration(hintText: s.sportsname_expl),
-                    onSaved: (String value) {
-                      setState(() {
-                        horse.sportsName = value;
-                      });
-                    }),
+                    onSaved: (String value) =>
+                        setState(() => horse.sportsName = value)),
                 TextFormField(
                     controller: TextEditingController(text: horse.breedName),
                     decoration: InputDecoration(hintText: s.breedname_expl),
-                    onSaved: (String value) {
-                      setState(() {
-                        horse.breedName = value;
-                      });
-                    }),
+                    onSaved: (String value) =>
+                        setState(() => horse.breedName = value)),
               ]),
             ),
           ),
-          Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
+          Container(
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
                 FlatButton(
                     child: Text(s.cancel),
-                    onPressed: () {
-                      Navigator.pop(c, null);
-                    }),
+                    onPressed: () => Navigator.pop(c, null)),
                 RaisedButton(
                   child: Text(s.finish),
-                  onPressed: () {
-                    Navigator.pop(c, horse);
-                  },
+                  onPressed: () => Navigator.pop(c, horse),
                 ),
-              ])
+              ])),
         ]);
   }
-
-  HorseDb horseDb = HorseDb();
 }
 
 class HorseCard extends StatefulWidget {
@@ -183,21 +173,19 @@ class _HorseCardState extends State<HorseCard> {
     return Card(
       child: ListTile(
         // TODO: Horse profile pic here
-        leading: Container(
-            width: 64.0, height: 64.0, child: Icon(Pferdepass.pferdepass)),
+        leading:
+            FittedBox(child: Icon(Pferdepass.pferdepass), fit: BoxFit.contain),
         title: Text(horse?.name ?? ''),
         trailing: () {
           return additionalNames != null ? Text(additionalNames) : null;
         }(),
         subtitle: Text(horse.description(context)),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ViewHorse(horse: horse, horseDb: horseDb),
+        onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ViewHorse(horse: horse, horseDb: horseDb),
+              ),
             ),
-          );
-        },
       ),
     );
   }
