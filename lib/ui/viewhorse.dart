@@ -14,13 +14,13 @@
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
 import 'package:flutter/material.dart';
-import 'package:pferdepass/backend/gender.dart';
-import 'package:pferdepass/backend/horse.dart';
-import 'package:pferdepass/backend/horseDB.dart';
-import 'package:pferdepass/backend/tools.dart';
-import 'package:pferdepass/backend/ueln.dart';
-import 'package:pferdepass/generated/i18n.dart';
-import 'package:pferdepass/ui/dateTimePicker.dart';
+import 'package:Pferdepass/backend/gender.dart';
+import 'package:Pferdepass/backend/horse.dart';
+import 'package:Pferdepass/backend/horseDB.dart';
+import 'package:Pferdepass/backend/tools.dart';
+import 'package:Pferdepass/backend/ueln.dart';
+import 'package:Pferdepass/generated/i18n.dart';
+import 'package:Pferdepass/ui/dateTimePicker.dart';
 
 class ViewHorse extends StatefulWidget {
   @override

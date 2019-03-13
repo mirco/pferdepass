@@ -16,8 +16,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pferdepass/generated/i18n.dart' as i18n;
-import 'package:pferdepass/ui/mainscreen.dart';
+import 'package:Pferdepass/generated/i18n.dart' as i18n;
+import 'package:Pferdepass/ui/mainscreen.dart';
 
 void main() {
   group('MainScreen', () {

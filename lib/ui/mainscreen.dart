@@ -15,10 +15,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
-import 'package:pferdepass/backend/horse.dart';
-import 'package:pferdepass/backend/horseDB.dart';
-import 'package:pferdepass/backend/tools.dart';
-import 'package:pferdepass/generated/i18n.dart';
+import 'package:Pferdepass/backend/horse.dart';
+import 'package:Pferdepass/backend/horseDB.dart';
+import 'package:Pferdepass/backend/tools.dart';
+import 'package:Pferdepass/generated/i18n.dart';
 
 import 'pferdepass_icons.dart';
 import 'viewhorse.dart';

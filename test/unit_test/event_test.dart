@@ -13,7 +13,7 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
-import 'package:pferdepass/backend/event.dart';
+import 'package:Pferdepass/backend/event.dart';
 import 'package:test/test.dart';
 
 void main() {

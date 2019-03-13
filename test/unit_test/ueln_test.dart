@@ -13,8 +13,8 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
-import 'package:pferdepass/backend/ueln.dart';
-import 'package:pferdepass/backend/ueln_database.dart';
+import 'package:Pferdepass/backend/ueln.dart';
+import 'package:Pferdepass/backend/ueln_database.dart';
 import 'package:test/test.dart';
 
 const ueln_de = 'DE 456789012345';

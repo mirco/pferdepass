@@ -14,7 +14,7 @@
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pferdepass/backend/horse.dart';
+import 'package:Pferdepass/backend/horse.dart';
 
 part 'person.g.dart';
 //import 'package:contacts_service/contacts_service.dart';

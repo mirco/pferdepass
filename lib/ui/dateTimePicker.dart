@@ -14,7 +14,7 @@
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
 import 'package:flutter/material.dart';
-import 'package:pferdepass/backend/tools.dart';
+import 'package:Pferdepass/backend/tools.dart';
 
 class DateTimePicker extends StatelessWidget {
   DateTimePicker({this.selectedDate, this.selectDate, this.labelText});
@@ -25,6 +25,7 @@ class DateTimePicker extends StatelessWidget {
       controller: TextEditingController(text: formatDate(selectedDate)),
       decoration: InputDecoration(labelText: labelText),
       onTap: () => _selectDate(c),
+      cursorWidth: 0.0,
     );
   }
 

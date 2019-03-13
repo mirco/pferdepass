@@ -15,9 +15,9 @@
 
 import 'dart:convert';
 
-import 'package:pferdepass/backend/gender.dart';
-import 'package:pferdepass/backend/horse.dart';
-import 'package:pferdepass/backend/ueln.dart';
+import 'package:Pferdepass/backend/gender.dart';
+import 'package:Pferdepass/backend/horse.dart';
+import 'package:Pferdepass/backend/ueln.dart';
 import 'package:test/test.dart';
 
 final id = 1;

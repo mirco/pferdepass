@@ -13,9 +13,9 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
+import 'package:Pferdepass/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pferdepass/generated/i18n.dart';
 
 import 'defaultValues.dart';
 import 'event.dart';

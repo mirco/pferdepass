@@ -16,11 +16,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pferdepass/backend/gender.dart';
-import 'package:pferdepass/backend/horse.dart';
-import 'package:pferdepass/backend/horseDB.dart';
-import 'package:pferdepass/generated/i18n.dart' as i18n;
-import 'package:pferdepass/ui/viewhorse.dart';
+import 'package:Pferdepass/backend/gender.dart';
+import 'package:Pferdepass/backend/horse.dart';
+import 'package:Pferdepass/backend/horseDB.dart';
+import 'package:Pferdepass/generated/i18n.dart' as i18n;
+import 'package:Pferdepass/ui/viewhorse.dart';
 
 void main() {
   Horse horse;
