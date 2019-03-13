@@ -40,5 +40,6 @@
   "cancel": "cancel",
   "delete_horse": "delete this horse",
   "my_horses": "My Horses",
-  "events": "Events"
+  "events": "Events",
+  "pick_date": "pick date"
 }
