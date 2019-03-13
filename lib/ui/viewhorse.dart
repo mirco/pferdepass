@@ -163,12 +163,19 @@ class _ViewHorseState extends State<ViewHorse> {
     final dropdownList = items.map((key, value) => MapEntry(
         key, DropdownMenuItem(value: key, child: Text(value(context)))));
 
-    return DropdownButton<T>(
-      value: value,
-      hint: Text(labelText),
-      items: dropdownList.values.toList(),
-      onChanged: (T value) => setState(() => callback(value)),
-    );
+    return Row(children: [
+      Expanded(
+          child: Text(
+        labelText,
+        textAlign: TextAlign.left,
+      )),
+      DropdownButton<T>(
+        value: value,
+        hint: Text(labelText),
+        items: dropdownList.values.toList(),
+        onChanged: (T value) => setState(() => callback(value)),
+      )
+    ]);
   }
 
   final Key key;
