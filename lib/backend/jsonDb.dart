@@ -17,6 +17,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
 class JsonDb<T> {
@@ -65,7 +66,13 @@ class JsonDb<T> {
   }
 
   static Future<File> createDbFile({String dbName}) async {
-    final directory = await getApplicationDocumentsDirectory();
+    Directory directory;
+    try {
+      directory = await getApplicationDocumentsDirectory();
+    } on MissingPluginException {
+      directory = Directory('/tmp');
+    }
+
     return File('${directory.path}/$dbName');
   }
 }
