@@ -13,12 +13,12 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
-import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
 import 'package:Pferdepass/backend/horse.dart';
 import 'package:Pferdepass/backend/horseDB.dart';
 import 'package:Pferdepass/backend/tools.dart';
 import 'package:Pferdepass/generated/i18n.dart';
+import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 
 import 'pferdepass_icons.dart';
 import 'viewhorse.dart';
@@ -27,7 +27,6 @@ class MainScreen extends StatefulWidget {
   MainScreen();
 
   factory MainScreen.forDesignTime() {
-    // TODO: add arguments
     return new MainScreen();
   }
 
@@ -186,7 +185,7 @@ class _HorseCardState extends State<HorseCard> {
         // TODO: Horse profile pic here
         leading: Container(
             width: 64.0, height: 64.0, child: Icon(Pferdepass.pferdepass)),
-        title: Text(horse.name),
+        title: Text(horse?.name ?? ''),
         trailing: () {
           return additionalNames != null ? Text(additionalNames) : null;
         }(),
@@ -207,4 +206,8 @@ class _HorseCardState extends State<HorseCard> {
 
   final Horse horse;
   final HorseDb horseDb;
+}
+
+void addHorseToMainScreen(State<MainScreen> state, Horse horse) {
+  if (state is _MainScreenState) state.setState(() => state.horseDb.add(horse));
 }
