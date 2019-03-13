@@ -16,6 +16,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+const legalese = '''Copyright Mirco Tischler <mt-ml@gmx.de>
+
+published under the GPL version 3
+
+Icons made by FreePik from flaticons.com''';
+
 // yearwise age as used with horses, i.e. all Horses get one year older on the first of january,
 // no matter the actual birthday.
 int getCurrentAge(DateTime dateOfBirth) {

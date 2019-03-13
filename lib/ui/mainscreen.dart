@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pferdepass/backend/horse.dart';
 import 'package:pferdepass/backend/horseDB.dart';
+import 'package:pferdepass/backend/tools.dart';
 import 'package:pferdepass/generated/i18n.dart';
 
 import 'pferdepass_icons.dart';
@@ -97,11 +98,7 @@ class _MainScreenState extends State<MainScreen> {
           applicationIcon: Icon(Pferdepass.pferdepass),
           applicationName: s.title,
           applicationVersion: versionName + versionCode,
-          applicationLegalese: '''Copyright Mirco Tischler <mt-ml@gmx.de>
-
-published under the GPL version 3
-
-Icons made by FreePik from flaticons.com''',
+          applicationLegalese: legalese,
         )
       ])),
     );
