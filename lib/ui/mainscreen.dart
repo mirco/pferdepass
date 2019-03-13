@@ -45,17 +45,11 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     // asynchronously load the database file
-    HorseDb().loadDb().then((HorseDb value) {
-      setState(() {
-        horseDb = value;
-      });
-    });
-    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-      setState(() {
-        versionName = packageInfo.version;
-        versionCode = packageInfo.buildNumber;
-      });
-    });
+    HorseDb().loadDb().then((value) => setState(() => horseDb = value));
+    PackageInfo.fromPlatform().then((packageInfo) => setState(() {
+          versionName = packageInfo.version;
+          versionCode = packageInfo.buildNumber;
+        }));
   }
 
   @override
