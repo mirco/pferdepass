@@ -93,7 +93,9 @@ class Horse {
       this.color,
       this.events,
       this.farrierInterval,
-      this.primaryVaccinationFinished}) {this.gender ??= Gender(gender: genderType.unknown);}
+      this.primaryVaccinationFinished}) {
+    this.gender ??= Gender(gender: genderType.unknown);
+  }
 
   factory Horse.fromName(String name) => Horse(name: name);
 
