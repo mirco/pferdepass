@@ -13,7 +13,6 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
-import 'package:flutter/material.dart';
 import 'package:Pferdepass/backend/gender.dart';
 import 'package:Pferdepass/backend/horse.dart';
 import 'package:Pferdepass/backend/horseDB.dart';
@@ -21,11 +20,12 @@ import 'package:Pferdepass/backend/tools.dart';
 import 'package:Pferdepass/backend/ueln.dart';
 import 'package:Pferdepass/generated/i18n.dart';
 import 'package:Pferdepass/ui/dateTimePicker.dart';
+import 'package:flutter/material.dart';
 
 class ViewHorse extends StatefulWidget {
   @override
   _ViewHorseState createState() =>
-      _ViewHorseState(key: key, horse: horse, horseDb: horseDb);
+      _ViewHorseState(horse: horse, horseDb: horseDb);
 
   ViewHorse({@required this.horse, @required this.horseDb});
 
@@ -40,7 +40,7 @@ class ViewHorse extends StatefulWidget {
 }
 
 class _ViewHorseState extends State<ViewHorse> {
-  _ViewHorseState({this.key, @required this.horse, @required this.horseDb}) {
+  _ViewHorseState({@required this.horse, @required this.horseDb}) {
     assert(horse != null);
     assert(horseDb != null);
   }
@@ -52,28 +52,25 @@ class _ViewHorseState extends State<ViewHorse> {
       _buildTextFieldWidget(
         labelText: s.sportsname,
         content: horse.sportsName,
-        callback: (String value) => horse.sportsName = value,
+        callback: (String sportsName) => horse.sportsName = sportsName,
       ),
       _buildTextFieldWidget(
         labelText: s.breedname,
         content: horse.breedName,
-        callback: (String value) => horse.breedName = value,
+        callback: (String breedName) => horse.breedName = breedName,
       ),
       _buildTextFieldWidget(
           labelText: s.ueln,
           content: horse.ueln,
-          callback: (String value) {
+          callback: (ueln) {
+            // TODO: make ueln editable
             try {
-              horse.ueln = Ueln.fromString(value);
+              horse.ueln = Ueln.fromString(ueln);
             } on FormatException {}
           }),
       DateTimePicker(
         selectedDate: horse.dateOfBirth,
-        selectDate: (DateTime date) {
-          setState(() {
-            horse.dateOfBirth = date;
-          });
-        },
+        selectDate: (date) => setState(() => horse.dateOfBirth = date),
         labelText: s.dateOfBirth,
       ),
       _buildDropdownButtonFieldWidget<Race>(
@@ -81,22 +78,22 @@ class _ViewHorseState extends State<ViewHorse> {
         items: raceStrings,
         value: horse.race,
         context: c,
-        callback: (Race value) => horse.race = value,
+        callback: (race) => horse.race = race,
       ),
       _buildDropdownButtonFieldWidget<Color>(
         labelText: s.color,
         items: colorStrings,
         value: horse.color,
         context: c,
-        callback: (Color value) => horse.color = value,
+        callback: (color) => horse.color = color,
       ),
       _buildDropdownButtonFieldWidget<genderType>(
           labelText: s.gender,
           items: Gender.genderStrings,
           value: horse.gender.gender,
           context: c,
-          callback: (genderType value) {
-            horse.gender = Gender(gender: value);
+          callback: (gender) {
+            horse.gender = Gender(gender: gender);
           }),
     ];
 
@@ -104,7 +101,7 @@ class _ViewHorseState extends State<ViewHorse> {
       appBar: AppBar(
         title: TextField(
             controller: TextEditingController(text: horse.name ?? ''),
-            onChanged: (String value) => setState(() => horse.name = value)),
+            onChanged: (name) => setState(() => horse.name = name)),
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
@@ -178,7 +175,6 @@ class _ViewHorseState extends State<ViewHorse> {
     ]);
   }
 
-  final Key key;
   final Horse horse;
   final HorseDb horseDb;
 }
