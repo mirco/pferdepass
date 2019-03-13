@@ -13,21 +13,19 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
-import 'package:flutter/material.dart';
 import 'package:Pferdepass/backend/tools.dart';
+import 'package:flutter/material.dart';
 
 class DateTimePicker extends StatelessWidget {
   DateTimePicker({this.selectedDate, this.selectDate, this.labelText});
 
   @override
-  Widget build(BuildContext c) {
-    return TextField(
-      controller: TextEditingController(text: formatDate(selectedDate)),
-      decoration: InputDecoration(labelText: labelText),
-      onTap: () => _selectDate(c),
-      cursorWidth: 0.0,
-    );
-  }
+  Widget build(BuildContext c) => Row(children: <Widget>[
+        Expanded(child: Text(labelText)),
+        FlatButton(
+            child: Text(formatDate(selectedDate)),
+            onPressed: () => _selectDate(c))
+      ]);
 
   Future<void> _selectDate(BuildContext c) async {
     final DateTime picked = await showDatePicker(
