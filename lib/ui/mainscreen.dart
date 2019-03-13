@@ -35,8 +35,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String versionName;
-  String versionCode;
+  String versionName = '';
+  String versionCode = '';
 
   _MainScreenState();
 
