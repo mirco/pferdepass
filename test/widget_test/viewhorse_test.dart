@@ -26,40 +26,68 @@ void main() {
   Horse horse;
   HorseDb horseDb;
   setUp(() {
-    horse = Horse(
-      name: "HorseName",
-    );
+    horse =
+        Horse(name: 'name', sportsName: 'sportsName', breedName: 'breedName');
     horseDb = HorseDb();
     horseDb.add(horse);
   });
-  testWidgets('ViewHorse screen test', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(
-      home: ViewHorse(
-        horse: horse,
-        horseDb: horseDb,
-      ),
-      localizationsDelegates: const [
-        i18n.S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: i18n.S.delegate.supportedLocales,
-    ));
+  group('ViewHorse', () {
+    testWidgets('constructor test', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(
+        home: ViewHorse(
+          horse: horse,
+          horseDb: horseDb,
+        ),
+        localizationsDelegates: const [
+          i18n.S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: i18n.S.delegate.supportedLocales,
+      ));
 
-    expect(find.byType(ViewHorse), findsOneWidget);
-    expect(find.byType(TextFormField), findsNWidgets(3));
-    expect(
-        find.byWidgetPredicate(
-            (widget) => widget is DropdownButtonFormField<Race>),
-        findsOneWidget);
-    expect(
-        find.byWidgetPredicate(
-            (widget) => widget is DropdownButtonFormField<Color>),
-        findsOneWidget);
+      expect(find.byType(ViewHorse), findsOneWidget);
+      expect(find.byWidgetPredicate((widget) => widget is DropdownButton<Race>),
+          findsOneWidget);
+      expect(
+          find.byWidgetPredicate((widget) => widget is DropdownButton<Color>),
+          findsOneWidget);
 
-    expect(
-        find.byWidgetPredicate(
-            (widget) => widget is DropdownButtonFormField<genderType>),
-        findsOneWidget);
+      expect(
+          find.byWidgetPredicate(
+              (widget) => widget is DropdownButton<genderType>),
+          findsOneWidget);
+    });
+    testWidgets('callback test', (tester) async {
+      await tester.pumpWidget(MaterialApp(
+        home: ViewHorse(
+          horse: horse,
+          horseDb: horseDb,
+        ),
+        localizationsDelegates: const [
+          i18n.S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: i18n.S.delegate.supportedLocales,
+      ));
+      var nameFinder = find.byWidgetPredicate((widget) =>
+          widget is TextField && widget?.controller?.text == 'name');
+      var sportsNameFinder = find.byWidgetPredicate((widget) =>
+          widget is TextField && widget?.decoration?.labelText == 'Sportsname');
+      var breedNameFinder = find.byWidgetPredicate((widget) =>
+          widget is TextField && widget.decoration.labelText == 'Breedname');
+      expect(nameFinder, findsOneWidget);
+      expect(sportsNameFinder, findsOneWidget);
+      expect(breedNameFinder, findsOneWidget);
+      expect(horse.name, 'name');
+      await tester.enterText(nameFinder, 'testName');
+      await tester.enterText(sportsNameFinder, 'testSportsName');
+      await tester.enterText(breedNameFinder, 'testBreedName');
+      await tester.pump();
+      expect(horse.name, 'testName');
+      expect(horse.sportsName, 'testSportsName');
+      expect(horse.breedName, 'testBreedName');
+    });
   });
 }
