@@ -104,11 +104,7 @@ class _ViewHorseState extends State<ViewHorse> {
       appBar: AppBar(
         title: TextField(
             controller: TextEditingController(text: horse.name ?? ''),
-            onSubmitted: (String value) {
-              setState(() {
-                horse.name = value;
-              });
-            }),
+            onChanged: (String value) => setState(() => horse.name = value)),
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
@@ -127,11 +123,8 @@ class _ViewHorseState extends State<ViewHorse> {
       ),
       body: Container(
         padding: EdgeInsets.all(10.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: widgetList,
-          ),
+        child: ListView(
+          children: widgetList,
         ),
       ),
     );
@@ -144,25 +137,20 @@ class _ViewHorseState extends State<ViewHorse> {
     _HorseCallback<String> callback,
     BuildContext context,
   }) {
-    return TextFormField(
+    return TextField(
       decoration: InputDecoration(
         labelText: labelText,
       ),
       controller: TextEditingController(
         text: () {
           content ??= '';
-          assert(content != null);
           if (content is Localized) {
             return content.toLocalizedString(context);
           } else
             return content.toString();
         }(),
       ),
-      onFieldSubmitted: (String value) {
-        setState(() {
-          callback(value);
-        });
-      },
+      onChanged: (String value) => setState(() => callback(value)),
     );
   }
 
@@ -172,29 +160,20 @@ class _ViewHorseState extends State<ViewHorse> {
       T value,
       _HorseCallback<T> callback,
       @required BuildContext context}) {
-    List<DropdownMenuItem<T>> dropdownList = [];
-    for (var i in items.keys) {
-      dropdownList
-          .add(DropdownMenuItem(value: i, child: Text(items[i](context))));
-    }
-    var r = DropdownButtonFormField<T>(
-      value: value,
-      decoration: InputDecoration(labelText: labelText),
-      items: dropdownList,
-      onChanged: (T value) {
-        setState(() {
-          callback(value);
-        });
-      },
-    );
+    final dropdownList = items.map((key, value) => MapEntry(
+        key, DropdownMenuItem(value: key, child: Text(value(context)))));
 
-    return r;
+    return DropdownButton<T>(
+      value: value,
+      hint: Text(labelText),
+      items: dropdownList.values.toList(),
+      onChanged: (T value) => setState(() => callback(value)),
+    );
   }
 
   final Key key;
   final Horse horse;
   final HorseDb horseDb;
-  final _formKey = GlobalKey<FormState>();
 }
 
 typedef _HorseCallback<T> = T Function(T);
