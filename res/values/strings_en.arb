@@ -39,5 +39,6 @@
   "close": "close",
   "cancel": "cancel",
   "delete_horse": "delete this horse",
-  "my_horses": "My Horses"
+  "my_horses": "My Horses",
+  "events": "Events"
 }

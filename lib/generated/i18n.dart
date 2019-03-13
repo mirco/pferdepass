@@ -31,6 +31,7 @@ class S implements WidgetsLocalizations {
   String get color => "Color";
   String get dateOfBirth => "Date of Birth";
   String get delete_horse => "delete this horse";
+  String get events => "Events";
   String get finish => "finish";
   String get gelding => "Gelding";
   String get gender => "Gender";
