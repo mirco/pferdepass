@@ -45,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     // asynchronously load the database file and version informations
-    HorseDb().loadDb().then((value) => setState(() => horseDb = value));
+    HorseDb().loadDb().then((horseDb) => setState(() => horseDb = horseDb));
     PackageInfo.fromPlatform().then((packageInfo) => setState(() {
           versionName = packageInfo.version;
           versionCode = packageInfo.buildNumber;
@@ -75,9 +75,7 @@ class _MainScreenState extends State<MainScreen> {
           final h = await showDialog<Horse>(
               context: c,
               builder: (BuildContext c) => _addHorseDialogBuilder(c));
-          setState(() {
-            if (h != null) horseDb.add(h);
-          });
+          setState(() => h != null ? horseDb.add(h) : null);
         },
         tooltip: s.add_horse,
         child: Icon(Icons.add),
@@ -112,38 +110,38 @@ class _MainScreenState extends State<MainScreen> {
         contentPadding: EdgeInsets.all(8.0),
         children: <Widget>[
           Container(
-            child: Form(
-              child: ListView(children: <Widget>[
-                TextFormField(
-                    controller: TextEditingController(text: horse.name),
-                    decoration: InputDecoration(hintText: s.name_expl),
-                    onSaved: (String value) =>
-                        setState(() => horse.name = value)),
-                TextFormField(
-                    controller: TextEditingController(text: horse.sportsName),
-                    decoration: InputDecoration(hintText: s.sportsname_expl),
-                    onSaved: (String value) =>
-                        setState(() => horse.sportsName = value)),
-                TextFormField(
-                    controller: TextEditingController(text: horse.breedName),
-                    decoration: InputDecoration(hintText: s.breedname_expl),
-                    onSaved: (String value) =>
-                        setState(() => horse.breedName = value)),
-              ]),
-            ),
+            width: double.maxFinite,
+            height: 130.0,
+            child: ListView(children: <Widget>[
+              TextField(
+                  controller: TextEditingController(text: horse.name),
+                  decoration: InputDecoration(hintText: s.name_expl),
+                  onChanged: (name) => setState(() => horse.name = name)),
+              TextField(
+                  controller: TextEditingController(text: horse.sportsName),
+                  decoration: InputDecoration(hintText: s.sportsname_expl),
+                  onChanged: (sportsName) =>
+                      setState(() => horse.sportsName = sportsName)),
+              TextField(
+                  controller: TextEditingController(text: horse.breedName),
+                  decoration: InputDecoration(hintText: s.breedname_expl),
+                  onChanged: (breedName) =>
+                      setState(() => horse.breedName = breedName)),
+            ]),
           ),
           Container(
-              child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                FlatButton(
-                    child: Text(s.cancel),
-                    onPressed: () => Navigator.pop(c, null)),
-                RaisedButton(
-                  child: Text(s.finish),
-                  onPressed: () => Navigator.pop(c, horse),
-                ),
-              ])),
+            width: double.maxFinite,
+            child: Row(children: <Widget>[
+              FlatButton(
+                  child: Text(s.cancel),
+                  onPressed: () => Navigator.pop(c, null)),
+              Expanded(child: Container()),
+              RaisedButton(
+                child: Text(s.finish),
+                onPressed: () => Navigator.pop(c, horse),
+              ),
+            ]),
+          ),
         ]);
   }
 }
