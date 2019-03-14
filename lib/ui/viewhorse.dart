@@ -70,7 +70,7 @@ class _ViewHorseState extends State<ViewHorse> {
           }),
       DateTimePicker(
         selectedDate: horse.dateOfBirth,
-        selectDate: (date) => setState(() => horse.dateOfBirth = date),
+        onSelectDate: (date) => setState(() => horse.dateOfBirth = date),
         labelText: s.dateOfBirth,
       ),
       _buildDropdownButtonFieldWidget<Race>(

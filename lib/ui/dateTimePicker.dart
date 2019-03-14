@@ -18,7 +18,10 @@ import 'package:Pferdepass/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 class DateTimePicker extends StatelessWidget {
-  DateTimePicker({this.selectedDate, this.selectDate, this.labelText});
+  DateTimePicker(
+      {this.selectedDate,
+      @required this.onSelectDate,
+      @required this.labelText});
 
   @override
   Widget build(BuildContext c) => Row(children: <Widget>[
@@ -35,10 +38,10 @@ class DateTimePicker extends StatelessWidget {
         firstDate: DateTime(1000, 1),
         lastDate: DateTime.now(),
         initialDatePickerMode: DatePickerMode.year);
-    if (picked != null && picked != selectDate) return selectDate(picked);
+    if (picked != null && picked != selectedDate) return onSelectDate(picked);
   }
 
   final DateTime selectedDate;
-  final ValueChanged<DateTime> selectDate;
+  final ValueChanged<DateTime> onSelectDate;
   final String labelText;
 }
