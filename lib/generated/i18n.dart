@@ -12,7 +12,7 @@ class S implements WidgetsLocalizations {
   const S();
 
   static const GeneratedLocalizationsDelegate delegate =
-      GeneratedLocalizationsDelegate();
+    GeneratedLocalizationsDelegate();
 
   static S of(BuildContext context) => Localizations.of<S>(context, S);
 
@@ -67,9 +67,15 @@ class $de extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
+  String get next => "Weiter";
+  @override
+  String get cancel => "Abbrechen";
+  @override
   String get color => "Farbe";
   @override
   String get gender => "Geschlecht";
+  @override
+  String get delete_horse => "Pferd löschen";
   @override
   String get title => "Pferdepass";
   @override
@@ -81,19 +87,33 @@ class $de extends S {
   @override
   String get by => "von";
   @override
+  String get pick_date => "Datum wählen";
+  @override
+  String get finish => "Fertig";
+  @override
   String get sportsname => "Sportname";
   @override
   String get holsteinian => "Holsteiner";
   @override
+  String get close => "Schließen";
+  @override
+  String get events => "Termine";
+  @override
   String get hannoveranian => "Hannoveraner";
   @override
   String get westfalian => "Westfale";
+  @override
+  String get my_horses => "Meine Pferde";
+  @override
+  String get add_horse => "Neues Pferd";
   @override
   String get ueln => "Lebensnummer";
   @override
   String get breedname => "Zuchtname";
   @override
   String get race => "Rasse";
+  @override
+  String get previous => "Zurück";
   @override
   String get black => "Schwarz";
   @override
@@ -104,6 +124,8 @@ class $de extends S {
   String get chestnut => "Fuchs";
   @override
   String get grey => "Schimmel";
+  @override
+  String get input_names => "Wie lautet der Name des Pferdes?";
   @override
   String get mare => "Stute";
   @override
@@ -132,8 +154,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     ];
   }
 
-  LocaleListResolutionCallback listResolution(
-      {Locale fallback, bool withCountry = true}) {
+  LocaleListResolutionCallback listResolution({Locale fallback, bool withCountry = true}) {
     return (List<Locale> locales, Iterable<Locale> supported) {
       if (locales == null || locales.isEmpty) {
         return fallback ?? supported.first;
@@ -143,8 +164,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     };
   }
 
-  LocaleResolutionCallback resolution(
-      {Locale fallback, bool withCountry = true}) {
+  LocaleResolutionCallback resolution({Locale fallback, bool withCountry = true}) {
     return (Locale locale, Iterable<Locale> supported) {
       return _resolve(locale, fallback, supported, withCountry);
     };
@@ -160,7 +180,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
         case "en":
           return SynchronousFuture<S>(const $en());
         default:
-        // NO-OP.
+          // NO-OP.
       }
     }
     return SynchronousFuture<S>(const S());
@@ -175,8 +195,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   ///
   /// Internal method to resolve a locale from a list of locales.
   ///
-  Locale _resolve(Locale locale, Locale fallback, Iterable<Locale> supported,
-      bool withCountry) {
+  Locale _resolve(Locale locale, Locale fallback, Iterable<Locale> supported, bool withCountry) {
     if (locale == null || !_isSupported(locale, withCountry)) {
       return fallback ?? supported.first;
     }
@@ -209,9 +228,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
         }
 
         // If no country requirement is requested, check if this locale has no country.
-        if (true != withCountry &&
-            (supportedLocale.countryCode == null ||
-                supportedLocale.countryCode.isEmpty)) {
+        if (true != withCountry && (supportedLocale.countryCode == null || supportedLocale.countryCode.isEmpty)) {
           return true;
         }
       }
@@ -221,7 +238,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
 }
 
 String getLang(Locale l) => l == null
-    ? null
-    : l.countryCode != null && l.countryCode.isEmpty
-        ? l.languageCode
-        : l.toString();
+  ? null
+  : l.countryCode != null && l.countryCode.isEmpty
+    ? l.languageCode
+    : l.toString();

@@ -27,5 +27,16 @@
   "years_old_female": "$age Jahre alte",
   "years_old_femaleZero": "Stutfohlen",
   "by": "von",
-  "out_of": "aus der"
+  "out_of": "aus der",
+  "input_names": "Wie lautet der Name des Pferdes?",
+  "next": "Weiter",
+  "previous": "Zurück",
+  "add_horse": "Neues Pferd",
+  "finish": "Fertig",
+  "close": "Schließen",
+  "cancel": "Abbrechen",
+  "delete_horse": "Pferd löschen",
+  "my_horses": "Meine Pferde",
+  "events": "Termine",
+  "pick_date": "Datum wählen"
 }
