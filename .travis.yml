@@ -26,59 +26,60 @@ cache:
   directories:
   - ${HOME}/.pub-cache
   - ${HOME}/flutter
-jobs:
-  include:
-  - stage: integration
-    env:
-      global:
-      - TESTS="test/integration_test"
-      - ANDROID_BUILD_TOOLS_VERSION=28.0.3
-      - ANDROID_ABI=armeabi-v7a
-      - ANDROID_API_LEVEL=25
-    language: android
-    android:
-      components:
-      - tools
-      - platform-tools
-      - build-tools-${ANDROID_BUILD_TOOLS_VERSION}
-      - android-${ANDROID_API_LEVEL}
-      - extra-google-m2repository
-      - sys-img-${ANDROID_ABI}-google_apis-${ANDROID_API_LEVEL}
-    sudo: true
-    os: linux
-    before_install: touch ${HOME}/.android/repositories.cfg
-    before_script:
-    # update sdk to get latest tools
-    - yes | sdkmanager --update
-    # start emulator
-    - echo no | avdmanager create avd -n integration_test -k "system-images;android-${ANDROID_API_LEVEL};google_apis;${ANDROID_ABI}" -c 100M
-    - (cd $(dirname $(which emulator)); emulator -avd integration_test -no-audio -no-window -gpu swiftshader &)
-    # install flutter
-    - gem install coveralls-lcov
-    - test -d ${HOME}/flutter/.git && (cd ${HOME}/flutter; git pull) || git clone https://github.com/flutter/flutter.git --depth=1 --branch=stable ${HOME}/flutter
-    - export PATH="${PATH}":"${HOME}/.pub-cache/bin"
-    - export PATH=${HOME}/flutter/bin:${HOME}/flutter/bin/cache/dart-sdk/bin:${PATH}
-    - yes | flutter doctor --android-licenses
-    - flutter doctor -v
-    - pub global activate coverage
-    # Wait for emulator to finish startup.
-    - android-wait-for-emulator
-    - adb shell input keyevent 82
-    - flutter devices
-    - flutter packages get
-    - flutter packages pub get
-    - flutter precache
-    - flutter packages pub run build_runner build
-    script: travis_retry flutter drive --target=test/integration_test/app.dart --driver=test/integration_test/app_test.dart
-    after_success: coveralls-lcov coverage/lcov.info
-    cache:
-      directories:
-      - ${HOME}/.android/build-cache
-      - ${HOME}/.pub-cache
-      - ${HOME}/flutter
-      - ${HOME}/.gradle/caches
-      - ${HOME}/.gradle/wrapper
-    before_cache:
-    - rm -f  ${HOME}/.gradle/caches/modules-2/modules-2.lock
-    - rm -rf ${HOME}/.gradle/caches/*/plugin-resolution/
-    - rm -rf ${HOME}/.pub-cache/global_packages/coverage/.packages
+#jobs:
+#  include:
+#  - stage: integration
+#    env:
+#      global:
+#      - ANDROID_BUILD_TOOLS_VERSION=28.0.3
+#      - ANDROID_ABI=armeabi-v7a
+#      - ANDROID_API_LEVEL=25
+#      matrix:
+#      - TESTS="test/integration_test"
+#    language: android
+#    android:
+#      components:
+#      - tools
+#      - platform-tools
+#      - build-tools-${ANDROID_BUILD_TOOLS_VERSION}
+#      - android-${ANDROID_API_LEVEL}
+#      - extra-google-m2repository
+#      - sys-img-${ANDROID_ABI}-google_apis-${ANDROID_API_LEVEL}
+#    sudo: true
+#    os: linux
+#    before_install: touch ${HOME}/.android/repositories.cfg
+#    before_script:
+#    # update sdk to get latest tools
+#    - yes | sdkmanager --update
+#    # start emulator
+#    - echo no | avdmanager create avd -n integration_test -k "system-images;android-${ANDROID_API_LEVEL};google_apis;${ANDROID_ABI}" -c 100M
+#    - (cd $(dirname $(which emulator)); emulator -avd integration_test -no-audio -no-window -gpu swiftshader &)
+#    # install flutter
+#    - gem install coveralls-lcov
+#    - test -d ${HOME}/flutter/.git && (cd ${HOME}/flutter; git pull) || git clone https://github.com/flutter/flutter.git --depth=1 --branch=stable ${HOME}/flutter
+#    - export PATH="${PATH}":"${HOME}/.pub-cache/bin"
+#    - export PATH=${HOME}/flutter/bin:${HOME}/flutter/bin/cache/dart-sdk/bin:${PATH}
+#    - yes | flutter doctor --android-licenses
+#    - flutter doctor -v
+#    - pub global activate coverage
+#    # Wait for emulator to finish startup.
+#    - android-wait-for-emulator
+#    - adb shell input keyevent 82
+#    - flutter devices
+#    - flutter packages get
+#    - flutter packages pub get
+#    - flutter precache
+#    - flutter packages pub run build_runner build
+#    script: travis_retry flutter drive --target=test/integration_test/app.dart --driver=test/integration_test/app_test.dart
+#    after_success: coveralls-lcov coverage/lcov.info
+#    cache:
+#      directories:
+#      - ${HOME}/.android/build-cache
+#      - ${HOME}/.pub-cache
+#      - ${HOME}/flutter
+#      - ${HOME}/.gradle/caches
+#      - ${HOME}/.gradle/wrapper
+#    before_cache:
+#    - rm -f  ${HOME}/.gradle/caches/modules-2/modules-2.lock
+#    - rm -rf ${HOME}/.gradle/caches/*/plugin-resolution/
+#    - rm -rf ${HOME}/.pub-cache/global_packages/coverage/.packages
