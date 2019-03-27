@@ -37,6 +37,8 @@ void main() {
     test('constructor test', () {
       expect(u1, allOf(u2, u3, u4, u5));
       expect(u1.toString(), ueln_deu);
+      expect(() => Ueln.fromString('abc'),
+          throwsA(TypeMatcher<FormatException>()));
     });
     test('operator test', () {
       expect(u1, u2);
