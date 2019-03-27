@@ -65,6 +65,14 @@ class JsonDb<T> {
     saveDb();
   }
 
+  void replace(T original, T updated) {
+    final index = data.indexOf(original);
+    if (index < 0)
+      throw FormatException('${original.toString()} not found in database');
+
+    data[index] = updated;
+  }
+
   static Future<File> createDbFile({String dbName}) async {
     Directory directory;
     try {

@@ -45,5 +45,10 @@ class HorseDb {
     saveDb();
   }
 
+  void replace(Horse original, Horse updated) {
+    horseDb.replace(original, updated);
+    saveDb();
+  }
+
   List<Horse> get horses => horseDb.data;
 }
