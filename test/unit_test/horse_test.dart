@@ -39,21 +39,23 @@ void main() {
     Horse horse;
     Horse horseNoValues;
     setUp(() {
-      horse = Horse(
-        id: id,
-        ueln: ueln,
-        name: name,
-        sportsName: sportsname,
-        breedName: breedname,
-        gender: gender,
-        dateOfBirth: dateOfBirth,
-        fatherId: fatherId,
-        motherId: motherId,
-        race: race,
-        color: color,
-        farrierInterval: farrierInterval,
-        primaryVaccinationFinished: primaryVaccinationFinished,
-      );
+      horse = Horse.fromGender(
+          Horse(
+            id: id,
+            ueln: ueln,
+            name: name,
+            sportsName: sportsname,
+            breedName: breedname,
+            gender: gender,
+            dateOfBirth: dateOfBirth,
+            fatherId: fatherId,
+            motherId: motherId,
+            race: race,
+            color: color,
+            farrierInterval: farrierInterval,
+            primaryVaccinationFinished: primaryVaccinationFinished,
+          ),
+          gender);
       horseNoValues = Horse();
     });
     test('constructor test', () {
@@ -84,6 +86,13 @@ void main() {
       expect(horseNoValues.color, equals(null));
       expect(horseNoValues.farrierInterval, equals(null));
       expect(horseNoValues.primaryVaccinationFinished, equals(null));
+      var h = Horse.fromName(name);
+      expect(h.name, name);
+      h = Horse.fromGender(h, Gender.stallion);
+      expect(h.name, name);
+      expect(h.gender, Gender.stallion);
+      h = Horse.fromUELN(ueln);
+      expect(h.ueln, ueln);
     });
     test('operator test', () {
       Horse horse2 = Horse(name: 'different horse');
@@ -146,6 +155,18 @@ void main() {
       final serialized = jsonEncode(horse.toJson());
       final deserialized = Horse.fromJson(jsonDecode(serialized));
       expect(deserialized, equals(horse));
+    });
+    test('gender test', () {
+      final stallion = Stallion.fromHorse(horse);
+      final mare = Mare.fromHorse(horse);
+      final gelding = Gelding.fromHorse(horse);
+      expect(stallion.gender, Gender.stallion);
+      expect(mare.gender, Gender.mare);
+      expect(gelding.gender, Gender.gelding);
+      List<Horse> horses = [stallion, mare, gelding];
+      expect(horses[0], TypeMatcher<Stallion>());
+      expect(horses[1], TypeMatcher<Mare>());
+      expect(horses[2], TypeMatcher<Gelding>());
     });
   });
 }
