@@ -15,8 +15,6 @@
 
 import 'package:Pferdepass/generated/i18n.dart';
 
-import 'tools.dart';
-
 enum Race {
   unknown,
   hannoveranian,
@@ -24,11 +22,13 @@ enum Race {
   westfalian,
 }
 
+typedef LocalizedString = String Function(S s);
+
 Map<Race, LocalizedString> raceStrings = {
-  Race.unknown: (context) => S.of(context).unknown,
-  Race.hannoveranian: (context) => S.of(context).hannoveranian,
-  Race.holsteinian: (context) => S.of(context).holsteinian,
-  Race.westfalian: (context) => S.of(context).westfalian,
+  Race.unknown: (S s) => s.unknown,
+  Race.hannoveranian: (S s) => s.hannoveranian,
+  Race.holsteinian: (S s) => s.holsteinian,
+  Race.westfalian: (S s) => s.westfalian,
 };
 
 enum Color {
@@ -40,11 +40,11 @@ enum Color {
 }
 
 Map<Color, LocalizedString> colorStrings = {
-  Color.unknown: (context) => S.of(context).unknown,
-  Color.black: (context) => S.of(context).black,
-  Color.brown: (context) => S.of(context).brown,
-  Color.chestnut: (context) => S.of(context).chestnut,
-  Color.grey: (context) => S.of(context).grey,
+  Color.unknown: (S s) => s.unknown,
+  Color.black: (S s) => s.black,
+  Color.brown: (S s) => s.brown,
+  Color.chestnut: (S s) => s.chestnut,
+  Color.grey: (S s) => s.grey,
 };
 
 enum Gender {
@@ -59,8 +59,8 @@ const Gender stallion = Gender.stallion;
 const Gender gelding = Gender.gelding;
 
 Map<Gender, LocalizedString> genderStrings = {
-  Gender.unknown: (context) => S.of(context).unknown,
-  Gender.mare: (context) => S.of(context).mare,
-  Gender.stallion: (context) => S.of(context).stallion,
-  Gender.gelding: (context) => S.of(context).gelding,
+  Gender.unknown: (S s) => s.unknown,
+  Gender.mare: (S s) => s.mare,
+  Gender.stallion: (S s) => s.stallion,
+  Gender.gelding: (S s) => s.gelding,
 };

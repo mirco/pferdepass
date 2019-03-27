@@ -199,9 +199,9 @@ void addHorseToMainScreen(State<MainScreen> state, Horse horse) {
   if (state is _MainScreenState) state.setState(() => state.horseDb.add(horse));
 }
 
-String description(Horse horse, BuildContext c) {
+String description(Horse horse, BuildContext context) {
   String result = '';
-  var s = S.of(c);
+  var s = S.of(context);
   if (horse.age != null && horse.age >= 2) {
     if (horse is Mare)
       result += s.years_old_female(ageToLocalizedPlural(horse.age));
@@ -211,7 +211,7 @@ String description(Horse horse, BuildContext c) {
       result += s.years_old(ageToLocalizedPlural(horse.age));
     result += ' ';
   }
-  if (horse.color != null) result += '${colorStrings[horse.color](c)} ';
+  if (horse.color != null) result += '${colorStrings[horse.color](s)} ';
   if (horse.age != null && horse.age < 2) {
     if (horse is Mare)
       result += s.years_old_female(ageToLocalizedPlural(horse.age));
@@ -221,7 +221,7 @@ String description(Horse horse, BuildContext c) {
       result += s.years_old(ageToLocalizedPlural(horse.age));
     result += ' ';
   } else if (horse.gender != null && horse.gender != Gender.unknown)
-    result += '${genderStrings[horse.gender](c)} ';
+    result += '${genderStrings[horse.gender](s)} ';
   if (horse.father != null && horse.father.name != null)
     result += '${s.by} ${horse.father.name} ';
   if (horse.mother != null && horse.mother.name != null) {

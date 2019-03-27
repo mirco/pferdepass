@@ -13,7 +13,6 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 const legalese = '''Copyright Mirco Tischler <mt-ml@gmx.de>
@@ -40,8 +39,6 @@ String stringOrNull<T>(T v) {
   else
     return v.toString();
 }
-
-typedef LocalizedString = String Function(BuildContext context);
 
 String ageToLocalizedPlural(int age) {
   switch (age) {

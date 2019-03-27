@@ -16,7 +16,6 @@
 import 'package:Pferdepass/backend/horse.dart';
 import 'package:Pferdepass/backend/horseDB.dart';
 import 'package:Pferdepass/backend/horse_util.dart';
-import 'package:Pferdepass/backend/tools.dart';
 import 'package:Pferdepass/backend/ueln.dart';
 import 'package:Pferdepass/generated/i18n.dart';
 import 'package:Pferdepass/ui/dateTimePicker.dart';
@@ -156,7 +155,7 @@ class _ViewHorseState extends State<ViewHorse> {
       _HorseCallback<T> callback,
       @required BuildContext context}) {
     final dropdownList = items.map((key, value) => MapEntry(
-        key, DropdownMenuItem(value: key, child: Text(value(context)))));
+        key, DropdownMenuItem(value: key, child: Text(value(S.of(context))))));
 
     return Row(children: [
       Expanded(
