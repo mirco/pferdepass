@@ -13,9 +13,9 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
-import 'package:Pferdepass/backend/gender.dart';
 import 'package:Pferdepass/backend/horse.dart';
 import 'package:Pferdepass/backend/horseDB.dart';
+import 'package:Pferdepass/backend/horse_util.dart';
 import 'package:Pferdepass/generated/i18n.dart' as i18n;
 import 'package:Pferdepass/ui/viewhorse.dart';
 import 'package:flutter/material.dart';

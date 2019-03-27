@@ -19,7 +19,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'defaultValues.dart';
 import 'event.dart';
-import 'gender.dart';
+import 'horse_util.dart';
 import 'tools.dart';
 import 'ueln.dart';
 
