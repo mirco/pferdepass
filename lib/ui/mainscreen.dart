@@ -15,6 +15,7 @@
 
 import 'package:Pferdepass/backend/horse.dart';
 import 'package:Pferdepass/backend/horseDB.dart';
+import 'package:Pferdepass/backend/horse_util.dart';
 import 'package:Pferdepass/backend/tools.dart';
 import 'package:Pferdepass/generated/i18n.dart';
 import 'package:flutter/material.dart';
@@ -177,7 +178,7 @@ class _HorseCardState extends State<HorseCard> {
         trailing: () {
           return additionalNames != null ? Text(additionalNames) : null;
         }(),
-        subtitle: Text(horse.description(context)),
+        subtitle: Text(description(horse, context)),
         onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -196,4 +197,37 @@ class _HorseCardState extends State<HorseCard> {
 
 void addHorseToMainScreen(State<MainScreen> state, Horse horse) {
   if (state is _MainScreenState) state.setState(() => state.horseDb.add(horse));
+}
+
+String description(Horse horse, BuildContext c) {
+  String result = '';
+  var s = S.of(c);
+  if (horse.age != null && horse.age >= 2) {
+    if (horse is Mare)
+      result += s.years_old_female(ageToLocalizedPlural(horse.age));
+    else if (horse is Stallion || horse is Gelding)
+      result += s.years_old_male(ageToLocalizedPlural(horse.age));
+    else
+      result += s.years_old(ageToLocalizedPlural(horse.age));
+    result += ' ';
+  }
+  if (horse.color != null) result += '${colorStrings[horse.color](c)} ';
+  if (horse.age != null && horse.age < 2) {
+    if (horse is Mare)
+      result += s.years_old_female(ageToLocalizedPlural(horse.age));
+    else if (horse is Stallion || horse is Gelding)
+      result += s.years_old_male(ageToLocalizedPlural(horse.age));
+    else
+      result += s.years_old(ageToLocalizedPlural(horse.age));
+    result += ' ';
+  } else if (horse.gender != null && horse.gender != Gender.unknown)
+    result += '${genderStrings[horse.gender](c)} ';
+  if (horse.father != null && horse.father.name != null)
+    result += '${s.by} ${horse.father.name} ';
+  if (horse.mother != null && horse.mother.name != null) {
+    result += '${s.out_of} ${horse.mother.name} ';
+    if (horse.mother.father != null && horse.mother.father.name != null)
+      result += '${s.by} ${horse.mother.father.name}';
+  }
+  return result;
 }

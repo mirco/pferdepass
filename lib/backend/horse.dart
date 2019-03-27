@@ -13,7 +13,6 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
-import 'package:Pferdepass/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -84,7 +83,9 @@ class Horse {
   factory Horse.fromUELN(Ueln ueln) => Horse(ueln: ueln);
 
   get age => dateOfBirth != null ? getCurrentAge(dateOfBirth) : null;
+
   get father => horseDb[fatherId];
+
   get mother => horseDb[motherId];
 
   factory Horse.fromJson(Map<String, dynamic> json) {
@@ -123,40 +124,8 @@ class Horse {
 
   int get hashCode => id ?? 0;
 
-  // TODO: change horse description generator
-  // this is realy ugly and probably doesn't translate well either
-  String description(BuildContext c) {
-    String result = '';
-    var s = S.of(c);
-    if (age != null && age >= 2) {
-      if (gender != null && gender == mare)
-        result += s.years_old_female(ageToLocalizedPlural(age));
-      else if (gender == null || gender == Gender.unknown)
-        result += s.years_old(ageToLocalizedPlural(age));
-      else
-        result += s.years_old_male(ageToLocalizedPlural(age));
-      result += ' ';
-    }
-    if (color != null) result += '${colorStrings[color](c)} ';
-    if (age != null && age < 2) {
-      if (gender != null && gender == mare)
-        result += s.years_old_female(ageToLocalizedPlural(age));
-      else if (gender == null || gender == Gender.unknown)
-        result += s.years_old(ageToLocalizedPlural(age));
-      else
-        result += s.years_old_male(ageToLocalizedPlural(age));
-      result += ' ';
-    } else if (gender != null && gender != Gender.unknown)
-      result += '${genderStrings[gender](c)} ';
-    if (father != null && father.name != null)
-      result += '${s.by} ${father.name} ';
-    if (mother != null && mother.name != null) {
-      result += '${s.out_of} ${mother.name} ';
-      if (mother.father != null && mother.father.name != null)
-        result += '${s.by} ${mother.father.name}';
-    }
-    return result;
-  }
+// TODO: change horse description generator
+// this is realy ugly and probably doesn't translate well either
 }
 
 @JsonSerializable()
