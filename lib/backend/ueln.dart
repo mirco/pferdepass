@@ -13,12 +13,9 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
-import 'package:flutter/material.dart' show BuildContext;
-
-import 'tools.dart';
 import 'ueln_database.dart';
 
-class Ueln extends Localized {
+class Ueln {
   final String ueln;
 
   const Ueln(this.ueln);
@@ -42,7 +39,6 @@ class Ueln extends Localized {
   }
 
   String toString() => ueln;
-  String toLocalizedString(BuildContext context) => ueln;
 
   static String uelnToString(Ueln u) => u.ueln;
   static Ueln uelnFromString(String s) => Ueln.fromString(s);

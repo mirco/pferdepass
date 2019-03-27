@@ -142,10 +142,7 @@ class _ViewHorseState extends State<ViewHorse> {
       controller: TextEditingController(
         text: () {
           content ??= '';
-          if (content is Localized) {
-            return content.toLocalizedString(context);
-          } else
-            return content.toString();
+          return content.toString();
         }(),
       ),
       onChanged: (String value) => setState(() => callback(value)),
@@ -175,6 +172,8 @@ class _ViewHorseState extends State<ViewHorse> {
       )
     ]);
   }
+
+  String toLocalizedString(BuildContext context) => horse.ueln.toString();
 
   final Horse horse;
   final HorseDb horseDb;

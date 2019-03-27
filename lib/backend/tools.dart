@@ -43,12 +43,6 @@ String stringOrNull<T>(T v) {
 
 typedef LocalizedString = String Function(BuildContext context);
 
-abstract class Localized {
-  const Localized();
-
-  String toLocalizedString(BuildContext context);
-}
-
 String ageToLocalizedPlural(int age) {
   switch (age) {
     case 0:
