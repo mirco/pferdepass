@@ -24,37 +24,6 @@ import 'tools.dart';
 import 'ueln.dart';
 
 part 'horse.g.dart';
-// needed for JSON serialization code generator
-
-enum Race {
-  unknown,
-  hannoveranian,
-  holsteinian,
-  westfalian,
-}
-
-Map<Race, LocalizedString> raceStrings = {
-  Race.unknown: (BuildContext context) => S.of(context).unknown,
-  Race.hannoveranian: (BuildContext context) => S.of(context).hannoveranian,
-  Race.holsteinian: (BuildContext context) => S.of(context).holsteinian,
-  Race.westfalian: (BuildContext context) => S.of(context).westfalian,
-};
-
-enum Color {
-  unknown,
-  black,
-  brown,
-  chestnut,
-  grey,
-}
-
-Map<Color, LocalizedString> colorStrings = {
-  Color.unknown: (BuildContext c) => S.of(c).unknown,
-  Color.black: (BuildContext c) => S.of(c).black,
-  Color.brown: (BuildContext c) => S.of(c).brown,
-  Color.chestnut: (BuildContext c) => S.of(c).chestnut,
-  Color.grey: (BuildContext c) => S.of(c).grey,
-};
 
 @JsonSerializable(includeIfNull: false)
 class Horse {
@@ -65,7 +34,6 @@ class Horse {
   String name = '';
   String sportsName;
   String breedName;
-  Gender gender;
   DateTime dateOfBirth;
   int fatherId;
   int motherId;
@@ -75,26 +43,40 @@ class Horse {
   @JsonKey(fromJson: durationFromDays, toJson: durationToDays)
   Duration farrierInterval = defaultFarrierInterval;
   bool primaryVaccinationFinished;
+  Gender gender;
 
   //  Map<dynamic, List<Person>> persons; TODO: implement connected persons
   static Map<int, Horse> horseDb = {};
 
-  Horse(
-      {this.id,
-      this.ueln,
-      this.name,
-      this.sportsName,
-      this.breedName,
-      this.gender,
-      this.dateOfBirth,
-      this.fatherId,
-      this.motherId,
-      this.race,
-      this.color,
-      this.events,
-      this.farrierInterval,
-      this.primaryVaccinationFinished}) {
-    this.gender ??= Gender(gender: genderType.unknown);
+  Horse({
+    this.id,
+    this.ueln,
+    this.name,
+    this.sportsName,
+    this.breedName,
+    this.dateOfBirth,
+    this.fatherId,
+    this.motherId,
+    this.race,
+    this.color,
+    this.events,
+    this.farrierInterval,
+    this.primaryVaccinationFinished,
+    this.gender = Gender.unknown,
+  });
+
+  factory Horse.fromGender(Horse horse, Gender gender) {
+    switch (gender) {
+      case Gender.stallion:
+        return Stallion.fromHorse(horse);
+      case Gender.mare:
+        return Mare.fromHorse(horse);
+      case Gender.gelding:
+        return Gelding.fromHorse(horse);
+      default:
+        horse.gender = gender;
+        return horse;
+    }
   }
 
   factory Horse.fromName(String name) => Horse(name: name);
@@ -105,7 +87,19 @@ class Horse {
   get father => horseDb[fatherId];
   get mother => horseDb[motherId];
 
-  factory Horse.fromJson(Map<String, dynamic> json) => _$HorseFromJson(json);
+  factory Horse.fromJson(Map<String, dynamic> json) {
+    final gender = json["gender"];
+    switch (gender) {
+      case Gender.stallion:
+        return Stallion.fromJson(json);
+      case Gender.mare:
+        return Mare.fromJson(json);
+      case Gender.gelding:
+        return Gelding.fromJson(json);
+      default:
+        return _$HorseFromJson(json);
+    }
+  }
 
   Map<String, dynamic> toJson() => _$HorseToJson(this);
 
@@ -137,7 +131,7 @@ class Horse {
     if (age != null && age >= 2) {
       if (gender != null && gender == mare)
         result += s.years_old_female(ageToLocalizedPlural(age));
-      else if (gender == null || gender.gender == genderType.unknown)
+      else if (gender == null || gender == Gender.unknown)
         result += s.years_old(ageToLocalizedPlural(age));
       else
         result += s.years_old_male(ageToLocalizedPlural(age));
@@ -147,15 +141,13 @@ class Horse {
     if (age != null && age < 2) {
       if (gender != null && gender == mare)
         result += s.years_old_female(ageToLocalizedPlural(age));
-      else if (gender == null || gender.gender == genderType.unknown)
+      else if (gender == null || gender == Gender.unknown)
         result += s.years_old(ageToLocalizedPlural(age));
       else
         result += s.years_old_male(ageToLocalizedPlural(age));
       result += ' ';
-    } else if (gender != null &&
-        gender.gender != genderType.unknown &&
-        gender.gender != null)
-      result += '${Gender.genderStrings[gender.gender](c)} ';
+    } else if (gender != null && gender != Gender.unknown)
+      result += '${genderStrings[gender](c)} ';
     if (father != null && father.name != null)
       result += '${s.by} ${father.name} ';
     if (mother != null && mother.name != null) {
@@ -165,4 +157,164 @@ class Horse {
     }
     return result;
   }
+}
+
+@JsonSerializable()
+class Stallion extends Horse {
+  Stallion({
+    int id,
+    Ueln ueln,
+    String name,
+    String sportsName,
+    String breedName,
+    DateTime dateOfBirth,
+    int fatherId,
+    int motherId,
+    Race race,
+    Color color,
+    List<Event> events,
+    Duration farrierInterval,
+    bool primaryVaccinationFinished,
+  }) : super(
+            id: id,
+            ueln: ueln,
+            name: name,
+            sportsName: sportsName,
+            breedName: breedName,
+            dateOfBirth: dateOfBirth,
+            fatherId: fatherId,
+            motherId: motherId,
+            race: race,
+            color: color,
+            events: events,
+            farrierInterval: farrierInterval,
+            primaryVaccinationFinished: primaryVaccinationFinished,
+            gender: stallion);
+
+  factory Stallion.fromHorse(Horse horse) => Stallion(
+      id: horse.id,
+      ueln: horse.ueln,
+      name: horse.name,
+      sportsName: horse.sportsName,
+      breedName: horse.breedName,
+      dateOfBirth: horse.dateOfBirth,
+      fatherId: horse.fatherId,
+      motherId: horse.motherId,
+      race: horse.race,
+      color: horse.color,
+      events: horse.events,
+      farrierInterval: horse.farrierInterval,
+      primaryVaccinationFinished: horse.primaryVaccinationFinished);
+
+  factory Stallion.fromJson(Map<String, dynamic> json) =>
+      _$StallionFromJson(json);
+  Map<String, dynamic> toJson() => _$StallionToJson(this);
+}
+
+@JsonSerializable()
+class Mare extends Horse {
+  List<DateTime> insemination = [];
+
+  Mare({
+    int id,
+    Ueln ueln,
+    String name,
+    String sportsName,
+    String breedName,
+    DateTime dateOfBirth,
+    int fatherId,
+    int motherId,
+    Race race,
+    Color color,
+    List<Event> events,
+    Duration farrierInterval,
+    bool primaryVaccinationFinished,
+    this.insemination,
+  }) : super(
+            id: id,
+            ueln: ueln,
+            name: name,
+            sportsName: sportsName,
+            breedName: breedName,
+            dateOfBirth: dateOfBirth,
+            fatherId: fatherId,
+            motherId: motherId,
+            race: race,
+            color: color,
+            events: events,
+            farrierInterval: farrierInterval,
+            primaryVaccinationFinished: primaryVaccinationFinished,
+            gender: mare);
+  factory Mare.fromHorse(Horse horse) => Mare(
+      id: horse.id,
+      ueln: horse.ueln,
+      name: horse.name,
+      sportsName: horse.sportsName,
+      breedName: horse.breedName,
+      dateOfBirth: horse.dateOfBirth,
+      fatherId: horse.fatherId,
+      motherId: horse.motherId,
+      race: horse.race,
+      color: horse.color,
+      events: horse.events,
+      farrierInterval: horse.farrierInterval,
+      primaryVaccinationFinished: horse.primaryVaccinationFinished);
+
+  factory Mare.fromJson(Map<String, dynamic> json) => _$MareFromJson(json);
+  Map<String, dynamic> toJson() => _$MareToJson(this);
+}
+
+@JsonSerializable()
+class Gelding extends Horse {
+  DateTime dateOfCastration;
+
+  Gelding({
+    int id,
+    Ueln ueln,
+    String name,
+    String sportsName,
+    String breedName,
+    DateTime dateOfBirth,
+    int fatherId,
+    int motherId,
+    Race race,
+    Color color,
+    List<Event> events,
+    Duration farrierInterval,
+    bool primaryVaccinationFinished,
+    this.dateOfCastration,
+  }) : super(
+            id: id,
+            ueln: ueln,
+            name: name,
+            sportsName: sportsName,
+            breedName: breedName,
+            dateOfBirth: dateOfBirth,
+            fatherId: fatherId,
+            motherId: motherId,
+            race: race,
+            color: color,
+            events: events,
+            farrierInterval: farrierInterval,
+            primaryVaccinationFinished: primaryVaccinationFinished,
+            gender: gelding);
+
+  factory Gelding.fromHorse(Horse horse) => Gelding(
+      id: horse.id,
+      ueln: horse.ueln,
+      name: horse.name,
+      sportsName: horse.sportsName,
+      breedName: horse.breedName,
+      dateOfBirth: horse.dateOfBirth,
+      fatherId: horse.fatherId,
+      motherId: horse.motherId,
+      race: horse.race,
+      color: horse.color,
+      events: horse.events,
+      farrierInterval: horse.farrierInterval,
+      primaryVaccinationFinished: horse.primaryVaccinationFinished);
+
+  factory Gelding.fromJson(Map<String, dynamic> json) =>
+      _$GeldingFromJson(json);
+  Map<String, dynamic> toJson() => _$GeldingToJson(this);
 }

@@ -76,7 +76,7 @@ void main() {
       expect(horseNoValues.name, equals(null));
       expect(horseNoValues.sportsName, equals(null));
       expect(horseNoValues.breedName, equals(null));
-      expect(horseNoValues.gender, equals(Gender(gender: genderType.unknown)));
+      expect(horseNoValues.gender, equals(Gender.unknown));
       expect(horseNoValues.dateOfBirth, equals(null));
       expect(horseNoValues.fatherId, equals(null));
       expect(horseNoValues.motherId, equals(null));

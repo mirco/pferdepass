@@ -13,14 +13,14 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:Pferdepass/backend/gender.dart';
 import 'package:Pferdepass/backend/horse.dart';
 import 'package:Pferdepass/backend/horseDB.dart';
 import 'package:Pferdepass/generated/i18n.dart' as i18n;
 import 'package:Pferdepass/ui/viewhorse.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   Horse horse;
@@ -54,8 +54,7 @@ void main() {
           findsOneWidget);
 
       expect(
-          find.byWidgetPredicate(
-              (widget) => widget is DropdownButton<genderType>),
+          find.byWidgetPredicate((widget) => widget is DropdownButton<Gender>),
           findsOneWidget);
     });
     testWidgets('callback test', (tester) async {

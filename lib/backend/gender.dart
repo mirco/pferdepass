@@ -14,63 +14,53 @@
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
 import 'package:Pferdepass/generated/i18n.dart';
-import 'package:flutter/material.dart' show BuildContext;
-import 'package:json_annotation/json_annotation.dart';
 
 import 'tools.dart';
 
-part 'gender.g.dart';
+enum Race {
+  unknown,
+  hannoveranian,
+  holsteinian,
+  westfalian,
+}
 
-enum genderType {
+Map<Race, LocalizedString> raceStrings = {
+  Race.unknown: (context) => S.of(context).unknown,
+  Race.hannoveranian: (context) => S.of(context).hannoveranian,
+  Race.holsteinian: (context) => S.of(context).holsteinian,
+  Race.westfalian: (context) => S.of(context).westfalian,
+};
+
+enum Color {
+  unknown,
+  black,
+  brown,
+  chestnut,
+  grey,
+}
+
+Map<Color, LocalizedString> colorStrings = {
+  Color.unknown: (context) => S.of(context).unknown,
+  Color.black: (context) => S.of(context).black,
+  Color.brown: (context) => S.of(context).brown,
+  Color.chestnut: (context) => S.of(context).chestnut,
+  Color.grey: (context) => S.of(context).grey,
+};
+
+enum Gender {
   unknown,
   stallion,
   mare,
   gelding,
 }
 
-// constants for convenience;
-const Gender stallion = Gender.constant(genderType.stallion);
-const Gender mare = Gender.constant(genderType.mare);
-const Gender gelding = Gender.constant(genderType.gelding);
+const Gender mare = Gender.mare;
+const Gender stallion = Gender.stallion;
+const Gender gelding = Gender.gelding;
 
-@JsonSerializable()
-class Gender extends Localized {
-  final genderType gender;
-  final DateTime dateOfCastration;
-
-  static Map<genderType, LocalizedString> genderStrings = {
-    genderType.unknown: (BuildContext c) => S.of(c).unknown,
-    genderType.stallion: (BuildContext c) => S.of(c).stallion,
-    genderType.mare: (BuildContext c) => S.of(c).mare,
-    genderType.gelding: (BuildContext c) => S.of(c).gelding,
-  };
-
-  String toLocalizedString(BuildContext context) {
-    assert(genderStrings.keys.contains(gender));
-    return genderStrings[gender](context);
-  }
-
-  const Gender.constant(this.gender) : dateOfCastration = null;
-
-  Gender({this.gender = genderType.unknown, this.dateOfCastration}) {
-    assert(this.gender != null);
-    if (gender != genderType.gelding && dateOfCastration != null)
-      throw FormatException('Error: only geldings can be castrated');
-  }
-
-  factory Gender.update({Gender gender, DateTime dateOfCastration}) {
-    return Gender(gender: gender.gender, dateOfCastration: dateOfCastration);
-  }
-
-  factory Gender.fromJson(Map<String, dynamic> json) => _$GenderFromJson(json);
-
-  Map<String, dynamic> toJson() => _$GenderToJson(this);
-
-  bool operator ==(other) =>
-      other is Gender &&
-      gender == other.gender &&
-      dateOfCastration == other.dateOfCastration;
-
-  // just use the gender enum's value here
-  int get hashCode => gender.index;
-}
+Map<Gender, LocalizedString> genderStrings = {
+  Gender.unknown: (context) => S.of(context).unknown,
+  Gender.mare: (context) => S.of(context).mare,
+  Gender.stallion: (context) => S.of(context).stallion,
+  Gender.gelding: (context) => S.of(context).gelding,
+};

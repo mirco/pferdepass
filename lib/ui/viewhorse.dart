@@ -87,13 +87,14 @@ class _ViewHorseState extends State<ViewHorse> {
         context: c,
         callback: (color) => horse.color = color,
       ),
-      _buildDropdownButtonFieldWidget<genderType>(
+      _buildDropdownButtonFieldWidget<Gender>(
           labelText: s.gender,
-          items: Gender.genderStrings,
-          value: horse.gender.gender,
+          items: genderStrings,
+          value: horse.gender,
           context: c,
           callback: (gender) {
-            horse.gender = Gender(gender: gender);
+            final h = Horse.fromGender(horse, gender);
+            horseDb.replace(horse, h);
           }),
     ];
 
