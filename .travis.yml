@@ -12,6 +12,7 @@ addons:
     - libstdc++6
     - lib32stdc++6
     - fonts-droid
+    - lcov
 before_script:
 - export PATH="${HOME}/flutter/bin:${HOME}/flutter/bin/cache/dart-sdk/bin:${HOME}/.pub-cache/bin:${PATH}"
 - gem install coveralls-lcov
@@ -19,9 +20,11 @@ before_script:
 - flutter precache
 - pub global activate coverage
 - flutter packages get
-- flutter packages pub run build_runner build
-script: flutter test --coverage ${TESTS}
-after_success: coveralls-lcov coverage/lcov.info
+- flutter packages pub run build_runner build --delete-conflicting-outputs
+script: flutter test --coverage -j 2  ${TESTS}
+after_success:
+- lcov --remove coverage/lcov.info '*.g.dart' 'lib/generated/*' > coverage/lcov.info.reduced
+- coveralls-lcov coverage/lcov.info.reduced
 cache:
   directories:
   - ${HOME}/.pub-cache
