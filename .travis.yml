@@ -21,7 +21,7 @@ before_script:
 - pub global activate coverage
 - flutter packages get
 - flutter packages pub run build_runner build --delete-conflicting-outputs
-script: flutter test --coverage -j 2  ${TESTS}
+script: flutter test --coverage -j 2 ${TESTS}
 after_success:
 - lcov --remove coverage/lcov.info '*.g.dart' 'lib/generated/*' > coverage/lcov.info.reduced
 - coveralls-lcov coverage/lcov.info.reduced
@@ -29,6 +29,7 @@ cache:
   directories:
   - ${HOME}/.pub-cache
   - ${HOME}/flutter
+before_cache: rm -rf ${HOME}/.pub-cache/global_packages/coverage/.packages
 #jobs:
 #  include:
 #  - stage: integration
