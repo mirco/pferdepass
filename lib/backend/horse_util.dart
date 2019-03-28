@@ -24,11 +24,16 @@ enum Race {
 
 typedef LocalizedString = String Function(S s);
 
+String _rUnknown(final S s) => s.unknown;
+String _rHannoveranian(final S s) => s.hannoveranian;
+String _rHolsteinian(final S s) => s.holsteinian;
+String _rWestfalian(final S s) => s.westfalian;
+
 Map<Race, LocalizedString> raceStrings = {
-  Race.unknown: (S s) => s.unknown,
-  Race.hannoveranian: (S s) => s.hannoveranian,
-  Race.holsteinian: (S s) => s.holsteinian,
-  Race.westfalian: (S s) => s.westfalian,
+  Race.unknown: _rUnknown,
+  Race.hannoveranian: _rHannoveranian,
+  Race.holsteinian: _rHolsteinian,
+  Race.westfalian: _rWestfalian,
 };
 
 enum Color {
@@ -39,12 +44,18 @@ enum Color {
   grey,
 }
 
-Map<Color, LocalizedString> colorStrings = {
-  Color.unknown: (S s) => s.unknown,
-  Color.black: (S s) => s.black,
-  Color.brown: (S s) => s.brown,
-  Color.chestnut: (S s) => s.chestnut,
-  Color.grey: (S s) => s.grey,
+String _cUnknown(final S s) => s.unknown;
+String _cBlack(final S s) => s.black;
+String _cBrown(final S s) => s.brown;
+String _cChestnut(final S s) => s.chestnut;
+String _cGrey(final S s) => s.grey;
+
+const Map<Color, LocalizedString> colorStrings = const {
+  Color.unknown: _cUnknown,
+  Color.black: _cBlack,
+  Color.brown: _cBrown,
+  Color.chestnut: _cChestnut,
+  Color.grey: _cGrey,
 };
 
 enum Gender {
@@ -58,9 +69,14 @@ const Gender mare = Gender.mare;
 const Gender stallion = Gender.stallion;
 const Gender gelding = Gender.gelding;
 
-Map<Gender, LocalizedString> genderStrings = {
-  Gender.unknown: (S s) => s.unknown,
-  Gender.mare: (S s) => s.mare,
-  Gender.stallion: (S s) => s.stallion,
-  Gender.gelding: (S s) => s.gelding,
+String _gUnknow(final S s) => s.unknown;
+String _gMare(final S s) => s.mare;
+String _gStallion(final S s) => s.stallion;
+String _gGelding(final S s) => s.gelding;
+
+const Map<Gender, LocalizedString> genderStrings = const {
+  Gender.unknown: _gUnknow,
+  Gender.mare: _gMare,
+  Gender.stallion: _gStallion,
+  Gender.gelding: _gGelding,
 };
