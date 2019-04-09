@@ -31,6 +31,8 @@ void main() {
             selectedDate: date,
             onSelectDate: (d) => tester
                 .firstState(find.byType(DateTimePicker))
+                // we need to manipulate state here, this causes a warning. Ignore that for now
+                // ignore: invalid_use_of_protected_member
                 .setState(() => date = d),
             labelText: 'testDate'),
         localizationsDelegates: const [
