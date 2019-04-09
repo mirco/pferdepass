@@ -196,6 +196,9 @@ class _HorseCardState extends State<HorseCard> {
 }
 
 void addHorseToMainScreen(State<MainScreen> state, Horse horse) {
+  // we need to manipulate state here, this causes a warning. Ignore that for now
+  // TODO: move this to test somehow as it is meant for and only used in testing
+    // ignore: invalid_use_of_protected_member
   if (state is _MainScreenState) state.setState(() => state.horseDb.add(horse));
 }
 
