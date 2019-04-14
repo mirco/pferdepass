@@ -17,7 +17,7 @@ import 'package:Pferdepass/backend/horse.dart';
 import 'package:Pferdepass/backend/horseDB.dart';
 import 'package:Pferdepass/backend/horse_util.dart';
 import 'package:Pferdepass/generated/i18n.dart' as i18n;
-import 'package:Pferdepass/ui/viewhorse.dart';
+import 'package:Pferdepass/ui/viewHorseScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -34,7 +34,7 @@ void main() {
   group('ViewHorse', () {
     testWidgets('constructor test', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
-        home: ViewHorse(
+        home: ViewHorseScreen(
           horse: horse,
           horseDb: horseDb,
         ),
@@ -46,7 +46,7 @@ void main() {
         supportedLocales: i18n.S.delegate.supportedLocales,
       ));
 
-      expect(find.byType(ViewHorse), findsOneWidget);
+      expect(find.byType(ViewHorseScreen), findsOneWidget);
       expect(find.byWidgetPredicate((widget) => widget is DropdownButton<Race>),
           findsOneWidget);
       expect(
@@ -59,7 +59,7 @@ void main() {
     });
     testWidgets('callback test', (tester) async {
       await tester.pumpWidget(MaterialApp(
-        home: ViewHorse(
+        home: ViewHorseScreen(
           horse: horse,
           horseDb: horseDb,
         ),

@@ -13,33 +13,36 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
+import 'package:Pferdepass/backend/event.dart';
 import 'package:Pferdepass/backend/horse.dart';
 import 'package:Pferdepass/backend/horseDB.dart';
 import 'package:Pferdepass/backend/horse_util.dart';
 import 'package:Pferdepass/backend/ueln.dart';
 import 'package:Pferdepass/generated/i18n.dart';
-import 'package:Pferdepass/ui/dateTimePicker.dart';
 import 'package:flutter/material.dart';
 
-class ViewHorse extends StatefulWidget {
-  @override
-  _ViewHorseState createState() =>
-      _ViewHorseState(horse: horse, horseDb: horseDb);
+import 'dateTimePicker.dart';
+import 'drawer.dart';
+import 'eventWidget.dart';
 
-  ViewHorse({@required this.horse, @required this.horseDb});
-
-  factory ViewHorse.forDesignTime() {
-    Horse designTimeHorse = Horse(name: 'DesignTimeHorse');
-    HorseDb designTimeDb = HorseDb(dbName: 'designTimeDb');
-    return new ViewHorse(horse: designTimeHorse, horseDb: designTimeDb);
-  }
-
+class ViewHorseScreen extends StatefulWidget {
   final Horse horse;
   final HorseDb horseDb;
+
+  _ViewHorseScreenState createState() =>
+      _ViewHorseScreenState(horse: horse, horseDb: horseDb);
+
+  ViewHorseScreen({@required this.horse, @required this.horseDb});
+
+  factory ViewHorseScreen.forDesignTime() {
+    Horse designTimeHorse = Horse(name: 'DesignTimeHorse');
+    HorseDb designTimeDb = HorseDb(dbName: 'designTimeDb');
+    return new ViewHorseScreen(horse: designTimeHorse, horseDb: designTimeDb);
+  }
 }
 
-class _ViewHorseState extends State<ViewHorse> {
-  _ViewHorseState({@required this.horse, @required this.horseDb}) {
+class _ViewHorseScreenState extends State<ViewHorseScreen> {
+  _ViewHorseScreenState({@required this.horse, @required this.horseDb}) {
     assert(horse != null);
     assert(horseDb != null);
   }
@@ -118,6 +121,15 @@ class _ViewHorseState extends State<ViewHorse> {
               }),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          Event event;
+          EventWidget(event: event);
+        },
+        tooltip: s.add_event,
+        child: Icon(Icons.add),
+      ),
+      drawer: PferdepassDrawer(horseDb: horseDb),
       body: Container(
         padding: EdgeInsets.all(10.0),
         child: ListView(

@@ -19,38 +19,32 @@ import 'package:Pferdepass/backend/horse_util.dart';
 import 'package:Pferdepass/backend/tools.dart';
 import 'package:Pferdepass/generated/i18n.dart';
 import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
 
+import 'drawer.dart';
 import 'pferdepass_icons.dart';
-import 'viewhorse.dart';
+import 'routes.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen();
+  final HorseDb horseDb;
+  MainScreen({this.horseDb});
 
-  factory MainScreen.forDesignTime() {
-    return new MainScreen();
-  }
+  factory MainScreen.forDesignTime() => MainScreen();
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _MainScreenState createState() => _MainScreenState(horseDb: horseDb);
 }
 
 class _MainScreenState extends State<MainScreen> {
-  var horseDb = HorseDb();
-  var versionName = '';
-  var versionCode = '';
+  var horseDb;
 
-  _MainScreenState();
+  _MainScreenState({this.horseDb});
 
   @override
   void initState() {
     super.initState();
     // asynchronously load the database file and version informations
-    HorseDb().loadDb().then((horseDb) => setState(() => horseDb = horseDb));
-    PackageInfo.fromPlatform().then((packageInfo) => setState(() {
-          versionName = packageInfo.version;
-          versionCode = packageInfo.buildNumber;
-        }));
+    if (horseDb == null)
+      HorseDb().loadDb().then((horseDb) => setState(() => horseDb = horseDb));
   }
 
   @override
@@ -81,24 +75,9 @@ class _MainScreenState extends State<MainScreen> {
         tooltip: s.add_horse,
         child: Icon(Icons.add),
       ),
-      drawer: Drawer(
-          child: ListView(children: <Widget>[
-        DrawerHeader(
-            child: FittedBox(
-                child: Icon(Pferdepass.pferdepass), fit: BoxFit.contain)),
-        ListTile(
-          title: Text(s.my_horses),
-        ),
-        ListTile(
-          title: Text(s.events),
-        ),
-        AboutListTile(
-          applicationIcon: Icon(Pferdepass.pferdepass),
-          applicationName: s.title,
-          applicationVersion: versionName + versionCode,
-          applicationLegalese: legalese,
-        )
-      ])),
+      drawer: PferdepassDrawer(
+        horseDb: horseDb,
+      ),
     );
   }
 
@@ -179,11 +158,10 @@ class _HorseCardState extends State<HorseCard> {
           return additionalNames != null ? Text(additionalNames) : null;
         }(),
         subtitle: Text(description(horse, context)),
-        onTap: () => Navigator.push(
+        onTap: () => Navigator.pushNamed(
               context,
-              MaterialPageRoute(
-                builder: (context) => ViewHorse(horse: horse, horseDb: horseDb),
-              ),
+              viewHorseRouteName,
+              arguments: {'horse': horse, 'horseDb': horseDb},
             ),
       ),
     );
@@ -198,7 +176,7 @@ class _HorseCardState extends State<HorseCard> {
 void addHorseToMainScreen(State<MainScreen> state, Horse horse) {
   // we need to manipulate state here, this causes a warning. Ignore that for now
   // TODO: move this to test somehow as it is meant for and only used in testing
-    // ignore: invalid_use_of_protected_member
+  // ignore: invalid_use_of_protected_member
   if (state is _MainScreenState) state.setState(() => state.horseDb.add(horse));
 }
 
