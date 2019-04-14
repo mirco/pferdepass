@@ -41,5 +41,10 @@
   "delete_horse": "delete this horse",
   "my_horses": "My Horses",
   "events": "Events",
-  "pick_date": "pick date"
+  "pick_date": "pick date",
+  "add_event": "add event",
+  "page_not_found": "page not found",
+  "no_events": "no events available",
+  "past_events": "past events",
+  "future_events": "future events"
 }

@@ -38,5 +38,6 @@
   "delete_horse": "Pferd löschen",
   "my_horses": "Meine Pferde",
   "events": "Termine",
-  "pick_date": "Datum wählen"
+  "pick_date": "Datum wählen",
+  "add_event": "neuer Termin"
 }

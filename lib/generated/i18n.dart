@@ -19,6 +19,7 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  String get add_event => "add event";
   String get add_horse => "Add horse";
   String get black => "black";
   String get breedname => "Breedname";
@@ -33,6 +34,7 @@ class S implements WidgetsLocalizations {
   String get delete_horse => "delete this horse";
   String get events => "Events";
   String get finish => "finish";
+  String get future_events => "future events";
   String get gelding => "Gelding";
   String get gender => "Gender";
   String get grey => "grey";
@@ -44,7 +46,10 @@ class S implements WidgetsLocalizations {
   String get name => "Name";
   String get name_expl => "The name under which the horse is known";
   String get next => "Next";
+  String get no_events => "no events available";
   String get out_of => "out of";
+  String get page_not_found => "page not found";
+  String get past_events => "past events";
   String get pick_date => "pick date";
   String get previous => "previous";
   String get race => "Race";
@@ -74,6 +79,8 @@ class $de extends S {
   String get color => "Farbe";
   @override
   String get gender => "Geschlecht";
+  @override
+  String get add_event => "neuer Termin";
   @override
   String get delete_horse => "Pferd löschen";
   @override
