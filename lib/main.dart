@@ -13,10 +13,10 @@
 /* You should have received a copy of the GNU General Public License          */
 /* along with Pferdepass.  If not, see <https://www.gnu.org/licenses/>.       */
 
+import 'package:Pferdepass/generated/i18n.dart' as i18n;
+import 'package:Pferdepass/ui/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:Pferdepass/generated/i18n.dart' as i18n;
-import 'package:Pferdepass/ui/mainscreen.dart';
 
 void main() {
   runApp(myApp());
@@ -24,7 +24,9 @@ void main() {
 
 Widget myApp() => MaterialApp(
       onGenerateTitle: (BuildContext context) => i18n.S.of(context).title,
-      home: MainScreen(),
+      initialRoute: initialRouteName,
+      onGenerateRoute: onGenerateRoute,
+      onUnknownRoute: onUnknownRoute,
       localizationsDelegates: const [
         i18n.S.delegate,
         GlobalMaterialLocalizations.delegate,
