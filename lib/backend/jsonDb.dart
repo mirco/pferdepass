@@ -31,13 +31,15 @@ class JsonDb<T> {
       {@required this.dbFile, @required this.fromJson, @required this.toJson});
 
   Future<JsonDb<T>> loadDb() async {
-    final file = await dbFile;
-    String jsonString = await file.readAsString();
-    var jsonList = jsonDecode(jsonString);
-    for (final json in jsonList) {
-      data.add(fromJson(json));
+    if (!_loaded) {
+      final file = await dbFile;
+      final jsonString = await file.readAsString();
+      var jsonList = jsonDecode(jsonString);
+      for (final json in jsonList) {
+        data.add(fromJson(json));
+      }
+      _loaded = true;
     }
-    _loaded = true;
     return this;
   }
 
