@@ -31,20 +31,20 @@ class MainScreen extends StatefulWidget {
   factory MainScreen.forDesignTime() => MainScreen();
 
   @override
-  _MainScreenState createState() => _MainScreenState(horseDb: horseDb);
+  _MainScreenState createState() =>
+      _MainScreenState(horseDb: horseDb ?? HorseDb());
 }
 
 class _MainScreenState extends State<MainScreen> {
-  var horseDb;
+  final horseDb;
 
   _MainScreenState({this.horseDb});
 
   @override
   void initState() {
     super.initState();
-    // asynchronously load the database file and version informations
-    if (horseDb == null)
-      HorseDb().loadDb().then((horseDb) => setState(() => horseDb = horseDb));
+
+    horseDb.loadDb().then((horseDb) => setState(() => true));
   }
 
   @override
@@ -52,12 +52,9 @@ class _MainScreenState extends State<MainScreen> {
     List<HorseCard> horseCards = [];
     var s = S.of(c);
 
-    for (final h in horseDb.horses) {
-      horseCards.add(HorseCard(
-        horse: h,
-        horseDb: horseDb,
-      ));
-    }
+    horseCards.addAll(horseDb?.horses?.map<HorseCard>(
+        (Horse horse) => HorseCard(horse: horse, horseDb: horseDb)));
+
     return Scaffold(
       appBar: AppBar(
         title: Text(s.title),
